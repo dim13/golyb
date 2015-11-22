@@ -1,2 +1,2 @@
 # gofys
-Go f*ck your self -- a BrainF*ck interpreter
+Go f_*_ck your self -- a BrainF_*_ck interpreter
