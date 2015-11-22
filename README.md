@@ -1,5 +1,5 @@
 # gofys
-Go f\*ck your self -- a BrainF\*ck interpreter
+Go f\*ck your self -- yet another BrainF\*ck interpreter in Go
 
 ## optimizations
 - [x] Contraction
