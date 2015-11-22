@@ -56,8 +56,8 @@ func (t *Tape) Clear() {
 
 func (t *Tape) Mult(off, arg int) {
 	v := t.cell[t.pos]
-	t.cell[t.pos] = 0
 	t.Move(off)
-	t.cell[t.pos] += v * arg
-	t.pos -= off
+	t.Add(v * arg)
+	t.Move(-off)
+	t.Clear()
 }
