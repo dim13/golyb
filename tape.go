@@ -6,7 +6,7 @@ import (
 	"unicode"
 )
 
-const size = 512
+const size = 4096
 
 type Tape struct {
 	cell []int
