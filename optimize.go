@@ -1,4 +1,3 @@
-// Go f*ck your self -- a BrainF*ck interpreter
 package main
 
 func match(p Program, q Program) bool {

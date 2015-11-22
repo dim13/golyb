@@ -1,4 +1,3 @@
-// Go f*ck your self -- a BrainF*ck interpreter
 package main
 
 const helloWorld = `++++++++++        initializes cell zero to 10
