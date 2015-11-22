@@ -23,6 +23,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	if *debug {
+		log.Println(program)
+	}
 	if *opt {
 		program = Optimize(program)
 	}

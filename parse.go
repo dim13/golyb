@@ -17,29 +17,13 @@ const (
 	Scan
 	BNZ
 	Clear
+	Mult
 )
-
-func (o Opcode) String() string {
-	switch o {
-	case Add:
-		return "add"
-	case Move:
-		return "mov"
-	case Print:
-		return "prn"
-	case Scan:
-		return "scn"
-	case BNZ:
-		return "bnz"
-	case Clear:
-		return "clr"
-	}
-	return "???"
-}
 
 type Command struct {
 	Op     Opcode
 	Arg    int
+	Off    int
 	Branch Program
 }
 
@@ -123,6 +107,10 @@ func (c Command) String() string {
 		s = "[" + fmt.Sprint(c.Branch) + "]"
 	case Clear:
 		s = "[-]"
+	case Mult:
+		s = "[-" + printArg(c.Off, ">", "<") +
+			printArg(c.Arg, "+", "-") +
+			printArg(-c.Off, ">", "<") + "]"
 	}
 	return s
 }

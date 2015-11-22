@@ -8,6 +8,7 @@ type Storage interface {
 	Print()
 	IsZero() bool
 	Clear()
+	Mult(int, int)
 }
 
 func Execute(p Program, s Storage) {
@@ -27,6 +28,8 @@ func Execute(p Program, s Storage) {
 			}
 		case Clear:
 			s.Clear()
+		case Mult:
+			s.Mult(cmd.Off, cmd.Arg)
 		}
 	}
 }

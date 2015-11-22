@@ -53,3 +53,11 @@ func (t *Tape) IsZero() bool {
 func (t *Tape) Clear() {
 	t.cell[t.pos] = 0
 }
+
+func (t *Tape) Mult(off, arg int) {
+	v := t.cell[t.pos]
+	t.cell[t.pos] = 0
+	t.Move(off)
+	t.cell[t.pos] += v * arg
+	t.pos -= off
+}

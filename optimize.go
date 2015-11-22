@@ -18,13 +18,25 @@ func match(p Program, q Program) bool {
 
 func clearLoop(p Program) Program {
 	for i, cmd := range p {
-		if cmd.Op == BNZ {
-			b := cmd.Branch
-			if match(b, Program{Command{Op: Add, Arg: 0}}) {
-				p[i] = Command{Op: Clear}
-			} else {
-				p[i].Branch = clearLoop(b)
+		if cmd.Op != BNZ {
+			continue
+		}
+		switch b := cmd.Branch; {
+		case len(b) == 1 && match(b, Program{
+			Command{Op: Add, Arg: 0}}):
+			p[i] = Command{Op: Clear}
+		case len(b) == 4 && match(b, Program{
+			Command{Op: Add, Arg: -1},
+			Command{Op: Move, Arg: 0},
+			Command{Op: Add, Arg: 0},
+			Command{Op: Move, Arg: -b[1].Arg}}):
+			p[i] = Command{
+				Op:  Mult,
+				Off: b[1].Arg,
+				Arg: b[2].Arg,
 			}
+		default:
+			p[i].Branch = clearLoop(b)
 		}
 	}
 	return p
