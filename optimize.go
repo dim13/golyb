@@ -15,7 +15,7 @@ func match(p Program, q Program) bool {
 	return true
 }
 
-func clearLoop(p Program) Program {
+func loops(p Program) Program {
 	for i, cmd := range p {
 		if cmd.Op != BNZ {
 			continue
@@ -45,7 +45,7 @@ func clearLoop(p Program) Program {
 				Arg: b[1].Arg,
 			}
 		default:
-			p[i].Branch = clearLoop(b)
+			p[i].Branch = loops(b)
 		}
 	}
 	return p
@@ -84,5 +84,5 @@ func contract(p Program) Program {
 
 func Optimize(p Program) Program {
 	o := contract(p)
-	return clearLoop(o)
+	return loops(o)
 }
