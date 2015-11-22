@@ -35,6 +35,16 @@ func clearLoop(p Program) Program {
 				Off: b[1].Arg,
 				Arg: b[2].Arg,
 			}
+		case len(b) == 4 && match(b, Program{
+			Command{Op: Move, Arg: 0},
+			Command{Op: Add, Arg: 0},
+			Command{Op: Move, Arg: -b[0].Arg},
+			Command{Op: Add, Arg: -1}}):
+			p[i] = Command{
+				Op:  Mult,
+				Off: b[0].Arg,
+				Arg: b[1].Arg,
+			}
 		default:
 			p[i].Branch = clearLoop(b)
 		}
