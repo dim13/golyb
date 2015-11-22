@@ -40,6 +40,8 @@ func (c Command) String() string {
 		s = "[-" + printArg(c.Off, ">", "<") +
 			printArg(c.Arg, "+", "-") +
 			printArg(-c.Off, ">", "<") + "]"
+	case Search:
+		s = "[" + printArg(c.Arg, ">", "<") + "]"
 	}
 	return s
 }

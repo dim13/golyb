@@ -3,11 +3,12 @@ package main
 type Storage interface {
 	Add(int)
 	Move(int)
-	Scan()
 	Print()
+	Scan()
 	IsZero() bool
 	Clear()
 	Mult(int, int)
+	Search(int)
 }
 
 func Execute(p Program, s Storage) {
@@ -29,6 +30,8 @@ func Execute(p Program, s Storage) {
 			s.Clear()
 		case Mult:
 			s.Mult(cmd.Off, cmd.Arg)
+		case Search:
+			s.Search(cmd.Arg)
 		}
 	}
 }

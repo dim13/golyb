@@ -16,6 +16,7 @@ const (
 	BNZ
 	Clear
 	Mult
+	Search
 )
 
 type Command struct {

@@ -60,3 +60,9 @@ func (t *Tape) Mult(off, arg int) {
 	t.Move(-off)
 	t.Clear()
 }
+
+func (t *Tape) Search(n int) {
+	for !t.IsZero() {
+		t.Move(n)
+	}
+}
