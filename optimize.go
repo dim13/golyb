@@ -20,7 +20,7 @@ func clearLoop(p Program) Program {
 	for i, cmd := range p {
 		if cmd.Op == BNZ {
 			b := cmd.Branch
-			if match(b, Program{Command{Op: Add, Arg: -1}}) {
+			if match(b, Program{Command{Op: Add, Arg: 0}}) {
 				p[i] = Command{Op: Clear}
 			} else {
 				p[i].Branch = clearLoop(b)
