@@ -1,7 +1,11 @@
 # gofys
-Go f\*ck your self -- yet another BrainF\*ck interpreter in Go
+Go f\*ck your self -- yet another optimizing BrainF\*ck interpreter in Go
 
-## optimizations
+## tape storage
+- static: 64k including 4k margin on left side (default)
+- dynamic: allocates in 4k chunks as required on access
+
+## code optimization
 - [x] Contraction
 - [x] Clear loops
 - [x] Copy loops
@@ -9,4 +13,12 @@ Go f\*ck your self -- yet another BrainF\*ck interpreter in Go
 - [x] Scan loops (kind of)
 - [x] Operation offsets
 
-See also http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
+Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
+
+## some rough results
+
+| Program     | with optimization | w/o optimization |
+|-------------|-------------------+------------------+
+| long.b      | 16 s              | 4 min            |
+| madelbrot.b | 38 s              | 2 min 35 sec     |
+| hanoi.b     |  3 s              | 3 min 50 sec     |

@@ -11,7 +11,7 @@ import (
 var (
 	file  = flag.String("file", "", "Source file")
 	out   = flag.String("out", "", "Output file")
-	tape  = flag.String("tape", "finite", "Tape type: finite/infinite")
+	tape  = flag.String("tape", "static", "Tape type: static/dynamic")
 	noopt = flag.Bool("noopt", false, "Disable optimization")
 	debug = flag.Bool("debug", false, "Enable debugging")
 	dump  = flag.Bool("dump", false, "Dump AST")
@@ -26,8 +26,8 @@ func output(out string) *os.File {
 }
 
 var storage = map[string]func(io.ReadWriter) Storage{
-	"finite":   NewFiniteTape,
-	"infinite": NewInfiniteTape,
+	"static":  NewStaticTape,
+	"dynamic": NewDynamicTape,
 }
 
 func main() {
