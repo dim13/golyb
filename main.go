@@ -7,10 +7,11 @@ import (
 )
 
 var (
-	file = flag.String("file", "", "Source file")
-	out  = flag.String("out", "", "Output file")
-	tape = flag.String("tape", "finite", "Tape type: finite/infinite")
-	opt  = flag.Bool("opt", true, "Optimization")
+	file  = flag.String("file", "", "Source file")
+	out   = flag.String("out", "", "Output file")
+	tape  = flag.String("tape", "finite", "Tape type: finite/infinite")
+	opt   = flag.Bool("opt", true, "Optimization")
+	debug = flag.Bool("debug", false, "Enable debugging")
 )
 
 func output(out string) *os.File {

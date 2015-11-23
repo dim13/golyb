@@ -20,6 +20,9 @@ func Execute(p Program, s Storage) {
 		}
 	}()
 	for _, cmd := range p {
+		if *debug {
+			log.Println(cmd)
+		}
 		switch cmd.Op {
 		case Add:
 			s.Add(cmd.Arg)
