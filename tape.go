@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"os"
 	"unicode"
 )
 
@@ -15,19 +14,11 @@ type Tape struct {
 	out  io.ReadWriter
 }
 
-func output(out string) *os.File {
-	if out == "stdout" {
-		return os.Stdout
-	}
-	file, _ := os.Create(out)
-	return file
-}
-
-func NewTape(out string) *Tape {
+func NewTape(out io.ReadWriter) *Tape {
 	return &Tape{
 		cell: make([]int, size),
 		pos:  0,
-		out:  output(out),
+		out:  out,
 	}
 }
 

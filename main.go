@@ -13,6 +13,14 @@ var (
 	opt   = flag.Bool("opt", true, "Optimize")
 )
 
+func output(out string) *os.File {
+	if out == "stdout" {
+		return os.Stdout
+	}
+	file, _ := os.Create(out)
+	return file
+}
+
 func main() {
 	flag.Parse()
 	if *file == "" {
@@ -32,5 +40,5 @@ func main() {
 	if *debug {
 		log.Println(program)
 	}
-	Execute(program, NewTape(*out))
+	Execute(program, NewTape(output(*out)))
 }
