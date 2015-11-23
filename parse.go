@@ -68,6 +68,18 @@ func ParseFile(fname string) (Program, error) {
 	return parse(bytes.NewBuffer(prog)), nil
 }
 
+func ParseFileOptimized(fname string) (Program, error) {
+	prog, err := ParseFile(fname)
+	if err != nil {
+		return nil, err
+	}
+	return Optimize(prog), nil
+}
+
 func ParseString(prog string) Program {
 	return parse(bytes.NewBufferString(prog))
+}
+
+func ParseStringOptimized(prog string) Program {
+	return Optimize(ParseString(prog))
 }

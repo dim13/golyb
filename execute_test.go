@@ -1,43 +1,29 @@
 package main
 
-const helloWorld = `++++++++++        initializes cell zero to 10
-	[
-	   >+++++++>++++++++++>+++>+<<<<-
-	]                 this loop sets the next four cells to 70/100/30/10 
-	>++.              print   'H'
-	>+.               print   'e'
-	+++++++.                  'l'
-	.                         'l'
-	+++.                      'o'
-	>++.                      space
-	<<+++++++++++++++.        'W'
-	>.                        'o'
-	+++.                      'r'
-	------.                   'l'
-	--------.                 'd'
-	>+.                       '!'
-	>.                        newline`
+// Hello World!
+const helloWorld = `++++++++++[>+++++++>++++++++++>+++>+<<<<-]
+>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.`
 
 func ExampleHelloWorld() {
-	Execute(ParseString(helloWorld), NewTape())
+	Execute(ParseStringOptimized(helloWorld), NewTape(nil))
 	// Output: Hello World!
 }
 
+// Prints 202
 const numeric = `>+>+>+>+>++<[>[<+++>-]<<]>.`
 
 // Numeric output
 func ExampleNumeric() {
-	Execute(ParseString(numeric), NewTape())
+	Execute(ParseStringOptimized(numeric), NewTape(nil))
 	// Output: 202
 }
 
-const faraway = `++++[>++++++<-]>[>+++++>+++++++<<-]>>++++<
-	[[>[[>>+<<-]<]>>>-]>-[>+>+<<-]>]
-	+++++[>+++++++<<++>-]>.<<.`
-
 // Goes to cell 30000 and reports from there with a #. (Verifies that the
 // array is big enough.)
+const faraway = `++++[>++++++<-]>[>+++++>+++++++<<-]>>++++<
+[[>[[>>+<<-]<]>>>-]>-[>+>+<<-]>]+++++[>+++++++<<++>-]>.<<.`
+
 func ExampleFarAway() {
-	Execute(ParseString(faraway), NewTape())
+	Execute(ParseStringOptimized(faraway), NewTape(nil))
 	// Output: #
 }
