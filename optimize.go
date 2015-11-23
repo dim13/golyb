@@ -38,6 +38,7 @@ func loops(p Program) Program {
 					Off: b[1].Arg,
 					Arg: b[2].Arg,
 				})
+				o = append(o, Command{Op: Clear})
 			// [>+<-]
 			case len(b) == 4 && match(b, Program{
 				Command{Op: Move},
@@ -49,6 +50,7 @@ func loops(p Program) Program {
 					Off: b[0].Arg,
 					Arg: b[1].Arg,
 				})
+				o = append(o, Command{Op: Clear})
 			// todo: [->+>+<<]
 			// todo: [>+>+<<-]
 			default:

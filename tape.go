@@ -61,7 +61,7 @@ func (t *Tape) Mult(off, arg int) {
 	t.Move(off)
 	t.Add(v * arg)
 	t.Move(-off)
-	t.Clear()
+	//t.Clear() // inserted by optimization
 }
 
 func (t *Tape) Search(n int) {
