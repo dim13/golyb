@@ -12,7 +12,7 @@ var (
 	file  = flag.String("file", "", "Source file")
 	out   = flag.String("out", "", "Output file")
 	tape  = flag.String("tape", "finite", "Tape type: finite/infinite")
-	opt   = flag.Bool("opt", true, "Optimization")
+	noopt = flag.Bool("noopt", false, "Disable optimization")
 	debug = flag.Bool("debug", false, "Enable debugging")
 	dump  = flag.Bool("dump", false, "Dump AST")
 )
@@ -32,15 +32,18 @@ var storage = map[string]func(io.ReadWriter) Storage{
 
 func main() {
 	flag.Parse()
+
 	if *file == "" {
 		flag.Usage()
 		return
 	}
+
 	program, err := ParseFile(*file)
 	if err != nil {
 		log.Fatal(err)
 	}
-	if *opt {
+
+	if !*noopt {
 		program = Optimize(program)
 	}
 
