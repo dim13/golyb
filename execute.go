@@ -1,5 +1,7 @@
 package main
 
+import "log"
+
 type Storage interface {
 	Add(int)
 	Move(int)
@@ -12,6 +14,11 @@ type Storage interface {
 }
 
 func Execute(p Program, s Storage) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Fatal(r)
+		}
+	}()
 	for _, cmd := range p {
 		switch cmd.Op {
 		case Add:

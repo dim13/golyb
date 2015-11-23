@@ -1,11 +1,13 @@
 package main
 
+import "os"
+
 // Hello World!
 const helloWorld = `++++++++++[>+++++++>++++++++++>+++>+<<<<-]
 >++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.`
 
 func ExampleHelloWorld() {
-	Execute(ParseStringOptimized(helloWorld), NewTape(nil))
+	Execute(ParseStringOptimized(helloWorld), NewFiniteTape(os.Stdout))
 	// Output: Hello World!
 }
 
@@ -14,7 +16,7 @@ const numeric = `>+>+>+>+>++<[>[<+++>-]<<]>.`
 
 // Numeric output
 func ExampleNumeric() {
-	Execute(ParseStringOptimized(numeric), NewTape(nil))
+	Execute(ParseStringOptimized(numeric), NewFiniteTape(os.Stdout))
 	// Output: 202
 }
 
@@ -24,6 +26,6 @@ const faraway = `++++[>++++++<-]>[>+++++>+++++++<<-]>>++++<
 [[>[[>>+<<-]<]>>>-]>-[>+>+<<-]>]+++++[>+++++++<<++>-]>.<<.`
 
 func ExampleFarAway() {
-	Execute(ParseStringOptimized(faraway), NewTape(nil))
+	Execute(ParseStringOptimized(faraway), NewFiniteTape(os.Stdout))
 	// Output: #
 }

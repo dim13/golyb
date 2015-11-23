@@ -8,21 +8,21 @@ import (
 
 const size = 4096
 
-type Tape struct {
+type InfiniteTape struct {
 	cell []int
 	pos  int
 	out  io.ReadWriter
 }
 
-func NewTape(out io.ReadWriter) *Tape {
-	return &Tape{
+func NewInfiniteTape(out io.ReadWriter) *InfiniteTape {
+	return &InfiniteTape{
 		cell: make([]int, size),
 		pos:  0,
 		out:  out,
 	}
 }
 
-func (t *Tape) Move(n int) {
+func (t *InfiniteTape) Move(n int) {
 	t.pos += n
 	if t.pos >= len(t.cell) {
 		t.cell = append(t.cell, make([]int, size)...)
@@ -32,11 +32,11 @@ func (t *Tape) Move(n int) {
 	}
 }
 
-func (t *Tape) Add(n int) {
+func (t *InfiniteTape) Add(n int) {
 	t.cell[t.pos] += n
 }
 
-func (t *Tape) Print() {
+func (t *InfiniteTape) Print() {
 	if c := t.cell[t.pos]; c > unicode.MaxASCII {
 		fmt.Fprintf(t.out, "%d", c)
 	} else {
@@ -44,19 +44,19 @@ func (t *Tape) Print() {
 	}
 }
 
-func (t *Tape) Scan() {
+func (t *InfiniteTape) Scan() {
 	fmt.Fscanf(t.out, "%c", &t.cell[t.pos])
 }
 
-func (t *Tape) IsZero() bool {
+func (t *InfiniteTape) IsZero() bool {
 	return t.cell[t.pos] == 0
 }
 
-func (t *Tape) Clear() {
+func (t *InfiniteTape) Clear() {
 	t.cell[t.pos] = 0
 }
 
-func (t *Tape) Mult(off, arg int) {
+func (t *InfiniteTape) Mult(off, arg int) {
 	v := t.cell[t.pos]
 	t.Move(off)
 	t.Add(v * arg)
@@ -64,7 +64,7 @@ func (t *Tape) Mult(off, arg int) {
 	//t.Clear() // inserted by optimization
 }
 
-func (t *Tape) Search(n int) {
+func (t *InfiniteTape) Search(n int) {
 	for !t.IsZero() {
 		t.Move(n)
 	}
