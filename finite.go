@@ -53,7 +53,7 @@ func (t *FiniteTape) Mult(off, arg int) {
 }
 
 func (t *FiniteTape) Search(n int) {
-	for !t.IsZero() {
-		t.Move(n)
+	for t.cell[t.pos] != 0 {
+		t.pos += n
 	}
 }
