@@ -22,10 +22,10 @@ func loops(p Program) Program {
 		case BNZ:
 			switch b := cmd.Branch; {
 			// [-] or [+]
-			case match(b, Program{Command{Op: Add}}):
+			case len(b) == 1 && match(b, Program{Command{Op: Add}}):
 				o = append(o, Command{Op: Clear})
 			// [>] or [<]
-			case match(b, Program{Command{Op: Move}}):
+			case len(b) == 1 && match(b, Program{Command{Op: Move}}):
 				o = append(o, Command{Op: Search, Arg: b[0].Arg})
 			// [->+<]
 			case len(b) == 4 && match(b, Program{
