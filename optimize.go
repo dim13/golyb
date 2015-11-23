@@ -16,48 +16,50 @@ func match(p Program, q Program) bool {
 }
 
 func loops(p Program) Program {
-	for i, cmd := range p {
-		if cmd.Op != BNZ {
-			continue
-		}
-		switch b := cmd.Branch; {
-		// [-] or [+]
-		case match(b, Program{
-			Command{Op: Add}}):
-			p[i] = Command{Op: Clear}
-		// [>] or [<]
-		case match(b, Program{
-			Command{Op: Move}}):
-			p[i] = Command{Op: Search, Arg: b[0].Arg}
-		// [->+<]
-		case len(b) == 4 && match(b, Program{
-			Command{Op: Add, Arg: -1},
-			Command{Op: Move},
-			Command{Op: Add},
-			Command{Op: Move, Arg: -b[1].Arg}}):
-			p[i] = Command{
-				Op:  Mult,
-				Off: b[1].Arg,
-				Arg: b[2].Arg,
+	var o Program
+	for _, cmd := range p {
+		switch cmd.Op {
+		case BNZ:
+			switch b := cmd.Branch; {
+			// [-] or [+]
+			case match(b, Program{Command{Op: Add}}):
+				o = append(o, Command{Op: Clear})
+			// [>] or [<]
+			case match(b, Program{Command{Op: Move}}):
+				o = append(o, Command{Op: Search, Arg: b[0].Arg})
+			// [->+<]
+			case len(b) == 4 && match(b, Program{
+				Command{Op: Add, Arg: -1},
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move, Arg: -b[1].Arg}}):
+				o = append(o, Command{
+					Op:  Mult,
+					Off: b[1].Arg,
+					Arg: b[2].Arg,
+				})
+			// [>+<-]
+			case len(b) == 4 && match(b, Program{
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move, Arg: -b[0].Arg},
+				Command{Op: Add, Arg: -1}}):
+				o = append(o, Command{
+					Op:  Mult,
+					Off: b[0].Arg,
+					Arg: b[1].Arg,
+				})
+			// todo: [->+>+<<]
+			// todo: [>+>+<<-]
+			default:
+				o = append(o, Command{Op: BNZ, Branch: loops(b)})
 			}
-		// [>+<-]
-		case len(b) == 4 && match(b, Program{
-			Command{Op: Move},
-			Command{Op: Add},
-			Command{Op: Move, Arg: -b[0].Arg},
-			Command{Op: Add, Arg: -1}}):
-			p[i] = Command{
-				Op:  Mult,
-				Off: b[0].Arg,
-				Arg: b[1].Arg,
-			}
-		// todo: [->+>+<<]
-		// todo: [>+>+<<-]
 		default:
-			p[i].Branch = loops(b)
+			// passthrough
+			o = append(o, cmd)
 		}
 	}
-	return p
+	return o
 }
 
 func scan(p Program) (Command, int) {
