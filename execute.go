@@ -3,13 +3,13 @@ package main
 import "log"
 
 type Storage interface {
-	Add(int)
+	Add(int, int)
 	Move(int)
-	Print()
-	Scan()
+	Print(int)
+	Scan(int)
 	IsZero() bool
-	Clear()
-	Mult(int, int)
+	Clear(int)
+	Mult(int, int, int)
 	Search(int)
 }
 
@@ -25,21 +25,21 @@ func Execute(p Program, s Storage) {
 		}
 		switch cmd.Op {
 		case Add:
-			s.Add(cmd.Arg)
+			s.Add(cmd.Arg, cmd.Off)
 		case Move:
 			s.Move(cmd.Arg)
 		case Print:
-			s.Print()
+			s.Print(cmd.Off)
 		case Scan:
-			s.Scan()
+			s.Scan(cmd.Off)
 		case BNZ:
 			for !s.IsZero() {
 				Execute(cmd.Branch, s)
 			}
 		case Clear:
-			s.Clear()
+			s.Clear(cmd.Off)
 		case Mult:
-			s.Mult(cmd.Dst, cmd.Arg)
+			s.Mult(cmd.Dst, cmd.Arg, cmd.Off)
 		case Search:
 			s.Search(cmd.Arg)
 		}

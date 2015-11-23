@@ -90,11 +90,45 @@ func loops(p Program) Program {
 				})
 				o = append(o, Command{Op: Clear})
 			default:
-				o = append(o, Command{Op: BNZ, Branch: loops(b)})
+				cmd.Branch = loops(cmd.Branch)
+				o = append(o, cmd)
 			}
 		default:
 			// passthrough
 			o = append(o, cmd)
+		}
+	}
+	return o
+}
+
+func offset(p Program) Program {
+	var o Program
+	var lastmove Command
+	// [>>>?<<<] for Add, Print, Scan, Clear, Mult
+	// not for Move, BNZ, Search
+	for i := 0; i < len(p); i++ {
+		if b := p[i:]; len(b) >= 3 &&
+			b[0].Op == Move &&
+			(b[1].Op == Add ||
+				b[1].Op == Print ||
+				b[1].Op == Scan ||
+				b[1].Op == Clear ||
+				b[1].Op == Mult) &&
+			b[2].Op == Move {
+			o = append(o, Command{
+				Op:  b[1].Op,
+				Arg: b[1].Arg,
+				Off: b[0].Arg,
+			})
+			lastmove = Command{
+				Op:  Move,
+				Arg: b[0].Arg + b[2].Arg,
+			}
+			p[i+2] = lastmove
+			i += 1
+		} else {
+			p[i].Branch = offset(p[i].Branch)
+			o = append(o, p[i])
 		}
 	}
 	return o
@@ -117,21 +151,22 @@ func scan(p Program) (Command, int) {
 func contract(p Program) Program {
 	var o Program
 	for i := 0; i < len(p); i++ {
-		cmd := p[i]
-		switch cmd.Op {
-		case BNZ:
-			cmd.Branch = contract(cmd.Branch)
+		switch cmd := p[i]; cmd.Op {
 		case Add, Move:
-			var n int
-			cmd, n = scan(p[i:])
+			cmd, n := scan(p[i:])
+			o = append(o, cmd)
 			i += n - 1
+		default:
+			cmd.Branch = contract(cmd.Branch)
+			o = append(o, cmd)
 		}
-		o = append(o, cmd)
 	}
 	return o
 }
 
 func Optimize(p Program) Program {
 	o := contract(p)
-	return loops(o)
+	o = loops(o)
+	o = offset(o)
+	return o
 }

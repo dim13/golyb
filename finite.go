@@ -14,8 +14,8 @@ type FiniteTape struct {
 
 func NewFiniteTape(out io.ReadWriter) *FiniteTape {
 	return &FiniteTape{
-		cell: make([]int, 32768),
-		pos:  1024,
+		cell: make([]int, 65536),
+		pos:  4096, // left some space on LHS
 		out:  out,
 	}
 }
@@ -24,32 +24,33 @@ func (t *FiniteTape) Move(n int) {
 	t.pos += n
 }
 
-func (t *FiniteTape) Add(n int) {
-	t.cell[t.pos] += n
+func (t *FiniteTape) Add(n, off int) {
+	t.cell[t.pos+off] += n
 }
 
-func (t *FiniteTape) Print() {
+func (t *FiniteTape) Print(off int) {
 	format := "%c"
-	if t.cell[t.pos] > unicode.MaxASCII {
+	v := t.cell[t.pos+off]
+	if v > unicode.MaxASCII {
 		format = "%d"
 	}
-	fmt.Fprintf(t.out, format, t.cell[t.pos])
+	fmt.Fprintf(t.out, format, v)
 }
 
-func (t *FiniteTape) Scan() {
-	fmt.Fscanf(t.out, "%c", &t.cell[t.pos])
+func (t *FiniteTape) Scan(off int) {
+	fmt.Fscanf(t.out, "%c", &t.cell[t.pos+off])
 }
 
 func (t *FiniteTape) IsZero() bool {
 	return t.cell[t.pos] == 0
 }
 
-func (t *FiniteTape) Clear() {
-	t.cell[t.pos] = 0
+func (t *FiniteTape) Clear(off int) {
+	t.cell[t.pos+off] = 0
 }
 
-func (t *FiniteTape) Mult(dst, arg int) {
-	t.cell[t.pos+dst] += t.cell[t.pos] * arg
+func (t *FiniteTape) Mult(dst, arg, off int) {
+	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * arg
 }
 
 func (t *FiniteTape) Search(n int) {

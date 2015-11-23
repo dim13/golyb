@@ -32,34 +32,34 @@ func (t *InfiniteTape) Move(n int) {
 	}
 }
 
-func (t *InfiniteTape) Add(n int) {
-	t.cell[t.pos] += n
+func (t *InfiniteTape) Add(n, off int) {
+	t.cell[t.pos+off] += n
 }
 
-func (t *InfiniteTape) Print() {
-	if c := t.cell[t.pos]; c > unicode.MaxASCII {
+func (t *InfiniteTape) Print(off int) {
+	if c := t.cell[t.pos+off]; c > unicode.MaxASCII {
 		fmt.Fprintf(t.out, "%d", c)
 	} else {
 		fmt.Fprintf(t.out, "%c", c)
 	}
 }
 
-func (t *InfiniteTape) Scan() {
-	fmt.Fscanf(t.out, "%c", &t.cell[t.pos])
+func (t *InfiniteTape) Scan(off int) {
+	fmt.Fscanf(t.out, "%c", &t.cell[t.pos+off])
 }
 
 func (t *InfiniteTape) IsZero() bool {
 	return t.cell[t.pos] == 0
 }
 
-func (t *InfiniteTape) Clear() {
-	t.cell[t.pos] = 0
+func (t *InfiniteTape) Clear(off int) {
+	t.cell[t.pos+off] = 0
 }
 
-func (t *InfiniteTape) Mult(dst, arg int) {
-	v := t.cell[t.pos]
+func (t *InfiniteTape) Mult(dst, arg, off int) {
+	v := t.cell[t.pos+off]
 	t.Move(dst)
-	t.Add(v * arg)
+	t.Add(v*arg, off)
 	t.Move(-dst)
 	//t.Clear() // inserted by optimization
 }

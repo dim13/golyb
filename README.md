@@ -7,6 +7,6 @@ Go f\*ck your self -- yet another BrainF\*ck interpreter in Go
 - [x] Copy loops
 - [x] Multiplication loops
 - [x] Scan loops (kind of)
-- [ ] Operation offsets (doubt of usefulness)
+- [x] Operation offsets
 
 See also http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
