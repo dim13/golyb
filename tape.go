@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"os"
 	"unicode"
 )
 
@@ -16,9 +15,6 @@ type Tape struct {
 }
 
 func NewTape(out io.ReadWriter) *Tape {
-	if out == nil {
-		out = os.Stdout
-	}
 	return &Tape{
 		cell: make([]int, size),
 		pos:  0,

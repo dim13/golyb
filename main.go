@@ -8,13 +8,13 @@ import (
 
 var (
 	file = flag.String("file", "", "Source file")
-	out  = flag.String("out", "", "Output")
+	out  = flag.String("out", "", "Output file")
 	opt  = flag.Bool("opt", true, "Optimize")
 )
 
 func output(out string) *os.File {
 	if out == "" {
-		return nil
+		return os.Stdout
 	}
 	file, _ := os.Create(out)
 	return file
