@@ -5,7 +5,7 @@ Go f\*ck your self -- yet another BrainF\*ck interpreter in Go
 - [x] Contraction
 - [x] Clear loops
 - [x] Copy loops
-- [x] Multiplication loops (partial)
+- [x] Multiplication loops
 - [x] Scan loops (kind of)
 - [ ] Operation offsets (doubt of usefulness)
 

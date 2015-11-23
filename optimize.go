@@ -51,8 +51,44 @@ func loops(p Program) Program {
 					Arg: b[1].Arg,
 				})
 				o = append(o, Command{Op: Clear})
-			// todo: [->+>+<<]
-			// todo: [>+>+<<-]
+			// [->+>+<<] or [->>+<+<]
+			case len(b) == 6 && match(b, Program{
+				Command{Op: Add, Arg: -1},
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move, Arg: -b[1].Arg - b[3].Arg}}):
+				o = append(o, Command{
+					Op:  Mult,
+					Off: b[1].Arg,
+					Arg: b[2].Arg,
+				})
+				o = append(o, Command{
+					Op:  Mult,
+					Off: b[1].Arg + b[3].Arg,
+					Arg: b[4].Arg,
+				})
+				o = append(o, Command{Op: Clear})
+			// [>+>+<<-] or [>>+<+<-]
+			case len(b) == 6 && match(b, Program{
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move, Arg: -b[0].Arg - b[2].Arg},
+				Command{Op: Add, Arg: -1}}):
+				o = append(o, Command{
+					Op:  Mult,
+					Off: b[0].Arg,
+					Arg: b[1].Arg,
+				})
+				o = append(o, Command{
+					Op:  Mult,
+					Off: b[0].Arg + b[2].Arg,
+					Arg: b[3].Arg,
+				})
+				o = append(o, Command{Op: Clear})
 			default:
 				o = append(o, Command{Op: BNZ, Branch: loops(b)})
 			}
