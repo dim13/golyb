@@ -74,7 +74,3 @@ func ParseFile(fname string) (Program, error) {
 func ParseString(prog string) Program {
 	return parse(bytes.NewBufferString(prog))
 }
-
-func ParseStringOptimized(prog string) Program {
-	return Optimize(ParseString(prog))
-}

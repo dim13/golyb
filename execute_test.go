@@ -2,12 +2,20 @@ package main
 
 import "os"
 
+func optParse(prog string) Program {
+	p := ParseString(prog)
+	p = OptContract(p)
+	p = OptLoops(p)
+	p = OptOffset(p)
+	return p
+}
+
 // Hello World!
 const helloWorld = `++++++++++[>+++++++>++++++++++>+++>+<<<<-]
 >++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.`
 
 func ExampleHelloWorld() {
-	Execute(ParseStringOptimized(helloWorld), NewFiniteTape(os.Stdout))
+	Execute(optParse(helloWorld), NewStaticTape(os.Stdout))
 	// Output: Hello World!
 }
 
@@ -16,7 +24,7 @@ const numeric = `>+>+>+>+>++<[>[<+++>-]<<]>.`
 
 // Numeric output
 func ExampleNumeric() {
-	Execute(ParseStringOptimized(numeric), NewFiniteTape(os.Stdout))
+	Execute(optParse(numeric), NewStaticTape(os.Stdout))
 	// Output: 202
 }
 
@@ -26,6 +34,6 @@ const faraway = `++++[>++++++<-]>[>+++++>+++++++<<-]>>++++<
 [[>[[>>+<<-]<]>>>-]>-[>+>+<<-]>]+++++[>+++++++<<++>-]>.<<.`
 
 func ExampleFarAway() {
-	Execute(ParseStringOptimized(faraway), NewFiniteTape(os.Stdout))
+	Execute(optParse(faraway), NewStaticTape(os.Stdout))
 	// Output: #
 }

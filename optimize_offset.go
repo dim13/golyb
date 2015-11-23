@@ -1,6 +1,6 @@
 package main
 
-func offset(p Program) Program {
+func OptOffset(p Program) Program {
 	var o Program
 	var lastmove Command
 	// [>>>?<<<] for Add, Print, Scan, Clear, Mult
@@ -45,7 +45,7 @@ func offset(p Program) Program {
 			p[i+3] = lastmove
 			i += 2
 		default:
-			p[i].Branch = offset(p[i].Branch)
+			p[i].Branch = OptOffset(p[i].Branch)
 			o = append(o, p[i])
 		}
 	}
