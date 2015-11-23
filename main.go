@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"io"
 	"log"
 	"os"
 )
@@ -12,6 +14,7 @@ var (
 	tape  = flag.String("tape", "finite", "Tape type: finite/infinite")
 	opt   = flag.Bool("opt", true, "Optimization")
 	debug = flag.Bool("debug", false, "Enable debugging")
+	dump  = flag.Bool("dump", false, "Dump AST")
 )
 
 func output(out string) *os.File {
@@ -22,11 +25,16 @@ func output(out string) *os.File {
 	return file
 }
 
+var storage = map[string]func(io.ReadWriter) Storage{
+	"finite":   NewFiniteTape,
+	"infinite": NewInfiniteTape,
+}
+
 func main() {
 	flag.Parse()
 	if *file == "" {
 		flag.Usage()
-		os.Exit(1)
+		return
 	}
 	program, err := ParseFile(*file)
 	if err != nil {
@@ -35,18 +43,17 @@ func main() {
 	if *opt {
 		program = Optimize(program)
 	}
-	o := output(*out)
 
-	var st Storage
-	switch *tape {
-	case "finite":
-		st = NewFiniteTape(o)
-	case "infinite":
-		st = NewInfiniteTape(o)
-	default:
-		flag.Usage()
-		os.Exit(1)
+	if *dump {
+		fmt.Println(program)
+		return
 	}
 
-	Execute(program, st)
+	if st, ok := storage[*tape]; ok {
+		o := output(*out)
+		Execute(program, st(o))
+	} else {
+		flag.Usage()
+		return
+	}
 }

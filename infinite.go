@@ -14,7 +14,7 @@ type InfiniteTape struct {
 	out  io.ReadWriter
 }
 
-func NewInfiniteTape(out io.ReadWriter) *InfiniteTape {
+func NewInfiniteTape(out io.ReadWriter) Storage {
 	return &InfiniteTape{
 		cell: make([]int, size),
 		pos:  0,

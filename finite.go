@@ -12,7 +12,7 @@ type FiniteTape struct {
 	out  io.ReadWriter
 }
 
-func NewFiniteTape(out io.ReadWriter) *FiniteTape {
+func NewFiniteTape(out io.ReadWriter) Storage {
 	return &FiniteTape{
 		cell: make([]int, 65536),
 		pos:  4096, // left some space on LHS
