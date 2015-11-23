@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 )
 
+//go:generate stringer -type=Opcode
+
 type Opcode int
 
 const (
