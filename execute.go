@@ -36,7 +36,7 @@ func Execute(p Program, s Storage) {
 		case Clear:
 			s.Clear()
 		case Mult:
-			s.Mult(cmd.Off, cmd.Arg)
+			s.Mult(cmd.Dst, cmd.Arg)
 		case Search:
 			s.Search(cmd.Arg)
 		}

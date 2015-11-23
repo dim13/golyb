@@ -37,9 +37,9 @@ func (c Command) String() string {
 	case Clear:
 		s = "[-]"
 	case Mult:
-		s = "[-" + printArg(c.Off, ">", "<") +
+		s = "[-" + printArg(c.Dst, ">", "<") +
 			printArg(c.Arg, "+", "-") +
-			printArg(-c.Off, ">", "<") + "]"
+			printArg(-c.Dst, ">", "<") + "]"
 	case Search:
 		s = "[" + printArg(c.Arg, ">", "<") + "]"
 	}

@@ -48,8 +48,8 @@ func (t *FiniteTape) Clear() {
 	t.cell[t.pos] = 0
 }
 
-func (t *FiniteTape) Mult(off, arg int) {
-	t.cell[t.pos+off] += t.cell[t.pos] * arg
+func (t *FiniteTape) Mult(dst, arg int) {
+	t.cell[t.pos+dst] += t.cell[t.pos] * arg
 }
 
 func (t *FiniteTape) Search(n int) {

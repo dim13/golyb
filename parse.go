@@ -22,6 +22,7 @@ const (
 type Command struct {
 	Op     Opcode
 	Arg    int
+	Dst    int
 	Off    int
 	Branch Program
 }

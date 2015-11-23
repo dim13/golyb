@@ -35,7 +35,7 @@ func loops(p Program) Program {
 				Command{Op: Move, Arg: -b[1].Arg}}):
 				o = append(o, Command{
 					Op:  Mult,
-					Off: b[1].Arg,
+					Dst: b[1].Arg,
 					Arg: b[2].Arg,
 				})
 				o = append(o, Command{Op: Clear})
@@ -47,7 +47,7 @@ func loops(p Program) Program {
 				Command{Op: Add, Arg: -1}}):
 				o = append(o, Command{
 					Op:  Mult,
-					Off: b[0].Arg,
+					Dst: b[0].Arg,
 					Arg: b[1].Arg,
 				})
 				o = append(o, Command{Op: Clear})
@@ -61,12 +61,12 @@ func loops(p Program) Program {
 				Command{Op: Move, Arg: -b[1].Arg - b[3].Arg}}):
 				o = append(o, Command{
 					Op:  Mult,
-					Off: b[1].Arg,
+					Dst: b[1].Arg,
 					Arg: b[2].Arg,
 				})
 				o = append(o, Command{
 					Op:  Mult,
-					Off: b[1].Arg + b[3].Arg,
+					Dst: b[1].Arg + b[3].Arg,
 					Arg: b[4].Arg,
 				})
 				o = append(o, Command{Op: Clear})
@@ -80,12 +80,12 @@ func loops(p Program) Program {
 				Command{Op: Add, Arg: -1}}):
 				o = append(o, Command{
 					Op:  Mult,
-					Off: b[0].Arg,
+					Dst: b[0].Arg,
 					Arg: b[1].Arg,
 				})
 				o = append(o, Command{
 					Op:  Mult,
-					Off: b[0].Arg + b[2].Arg,
+					Dst: b[0].Arg + b[2].Arg,
 					Arg: b[3].Arg,
 				})
 				o = append(o, Command{Op: Clear})

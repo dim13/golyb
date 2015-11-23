@@ -56,11 +56,11 @@ func (t *InfiniteTape) Clear() {
 	t.cell[t.pos] = 0
 }
 
-func (t *InfiniteTape) Mult(off, arg int) {
+func (t *InfiniteTape) Mult(dst, arg int) {
 	v := t.cell[t.pos]
-	t.Move(off)
+	t.Move(dst)
 	t.Add(v * arg)
-	t.Move(-off)
+	t.Move(-dst)
 	//t.Clear() // inserted by optimization
 }
 
