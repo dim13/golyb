@@ -8,8 +8,9 @@ import (
 
 var (
 	file  = flag.String("file", "", "Source file")
-	opt   = flag.Bool("opt", true, "Optimize")
+	out   = flag.String("out", "stdout", "Output")
 	debug = flag.Bool("debug", false, "Debug")
+	opt   = flag.Bool("opt", true, "Optimize")
 )
 
 func main() {
@@ -31,5 +32,5 @@ func main() {
 	if *debug {
 		log.Println(program)
 	}
-	Execute(program, NewTape())
+	Execute(program, NewTape(*out))
 }

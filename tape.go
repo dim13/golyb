@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"unicode"
 )
 
@@ -10,12 +12,22 @@ const size = 4096
 type Tape struct {
 	cell []int
 	pos  int
+	out  io.ReadWriter
 }
 
-func NewTape() *Tape {
+func output(out string) *os.File {
+	if out == "stdout" {
+		return os.Stdout
+	}
+	file, _ := os.Create(out)
+	return file
+}
+
+func NewTape(out string) *Tape {
 	return &Tape{
 		cell: make([]int, size),
 		pos:  0,
+		out:  output(out),
 	}
 }
 
@@ -35,14 +47,14 @@ func (t *Tape) Add(n int) {
 
 func (t *Tape) Print() {
 	if c := t.cell[t.pos]; c > unicode.MaxASCII {
-		fmt.Printf("%d", c)
+		fmt.Fprintf(t.out, "%d", c)
 	} else {
-		fmt.Printf("%c", c)
+		fmt.Fprintf(t.out, "%c", c)
 	}
 }
 
 func (t *Tape) Scan() {
-	fmt.Scanf("%c", &t.cell[t.pos])
+	fmt.Fscanf(t.out, "%c", &t.cell[t.pos])
 }
 
 func (t *Tape) IsZero() bool {
