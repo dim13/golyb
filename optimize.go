@@ -21,12 +21,15 @@ func loops(p Program) Program {
 			continue
 		}
 		switch b := cmd.Branch; {
+		// [-] or [+]
 		case match(b, Program{
 			Command{Op: Add}}):
 			p[i] = Command{Op: Clear}
+		// [>] or [<]
 		case match(b, Program{
 			Command{Op: Move}}):
 			p[i] = Command{Op: Search, Arg: b[0].Arg}
+		// [->+<]
 		case len(b) == 4 && match(b, Program{
 			Command{Op: Add, Arg: -1},
 			Command{Op: Move},
@@ -37,6 +40,7 @@ func loops(p Program) Program {
 				Off: b[1].Arg,
 				Arg: b[2].Arg,
 			}
+		// [>+<-]
 		case len(b) == 4 && match(b, Program{
 			Command{Op: Move},
 			Command{Op: Add},
@@ -47,6 +51,8 @@ func loops(p Program) Program {
 				Off: b[0].Arg,
 				Arg: b[1].Arg,
 			}
+		// todo: [->+>+<<]
+		// todo: [>+>+<<-]
 		default:
 			p[i].Branch = loops(b)
 		}
