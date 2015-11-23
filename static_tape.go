@@ -14,8 +14,8 @@ type StaticTape struct {
 
 func NewStaticTape(out io.ReadWriter) Storage {
 	return &StaticTape{
-		cell: make([]int, 65536),
-		pos:  4096, // left some space on LHS
+		cell: make([]int, 32768),
+		pos:  1024, // left some space on LHS
 		out:  out,
 	}
 }

@@ -6,7 +6,7 @@ import (
 	"unicode"
 )
 
-const size = 4096
+const size = 1024
 
 type DynamicTape struct {
 	cell []int

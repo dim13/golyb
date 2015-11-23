@@ -2,8 +2,8 @@
 Go f\*ck your self -- yet another optimizing BrainF\*ck interpreter in Go
 
 ## tape storage
-- static: 64k including 4k margin on left side (default)
-- dynamic: allocates in 4k chunks as required on access
+- static: 32k including 1k margin on left side (default)
+- dynamic: allocates in 1k chunks as required on access
 
 ## code optimization
 - [x] Contraction
