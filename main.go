@@ -19,12 +19,11 @@ var (
 	profile = flag.String("profile", "", "Write CPU profile to file")
 )
 
-func output(out string) *os.File {
+func output(out string) (*os.File, error) {
 	if out == "" {
-		return os.Stdout
+		return os.Stdout, nil
 	}
-	file, _ := os.Create(out)
-	return file
+	return os.Create(out)
 }
 
 var storage = map[string]func(io.ReadWriter) Storage{
@@ -66,7 +65,10 @@ func main() {
 	}
 
 	if st, ok := storage[*tape]; ok {
-		o := output(*out)
+		o, err := output(*out)
+		if err != nil {
+			log.Fatal(err)
+		}
 		Execute(program, st(o))
 	} else {
 		flag.Usage()
