@@ -12,6 +12,7 @@ import (
 var (
 	file    = flag.String("file", "", "Source file (required)")
 	out     = flag.String("out", "", "Output file or /dev/null")
+	in      = flag.String("in", "", "Input file")
 	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
 	noopt   = flag.Bool("noopt", false, "Disable optimization")
 	debug   = flag.Bool("debug", false, "Enable debugging")
@@ -19,11 +20,32 @@ var (
 	profile = flag.String("profile", "", "Write CPU profile to file")
 )
 
-func output(out string) (io.ReadWriter, error) {
-	if out == "" {
-		return os.Stdout, nil
+func output(out, in string) (io.ReadWriter, error) {
+	var err error
+	var r io.Reader
+	var w io.Writer
+
+	if out != "" {
+		w, err = os.Create(out)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		w = os.Stdout
 	}
-	return os.Create(out)
+
+	if in != "" {
+		r, err = os.Open(in)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		r = os.Stdin
+	}
+	return struct {
+		io.Reader
+		io.Writer
+	}{r, w}, nil
 }
 
 var storage = map[string]func(io.ReadWriter) Storage{
@@ -65,7 +87,7 @@ func main() {
 	}
 
 	if st, ok := storage[*tape]; ok {
-		o, err := output(*out)
+		o, err := output(*out, *in)
 		if err != nil {
 			log.Fatal(err)
 		}
