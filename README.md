@@ -39,11 +39,11 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 
 ## Some rough results
 
-| Program     | with optimization | w/o optimization | speed gain |
-| ----------- | -----------------:| ----------------:| ----------:|
-| madelbrot.b | 20.7 sec          | 1 min 54.3 sec   | 5.5x       |
-| long.b      | 10.9 sec          | 1 min 36.4 sec   | 8.8x       |
-| hanoi.b     |  1.8 sec          | 1 min 18.3 sec   | 43.5x      |
+| Program     | w/o optimization | with optimization | speed gain |
+| ----------- | ----------------:| -----------------:| ----------:|
+| madelbrot.b |   1 min 25.1 sec |          15.4 sec |       5.5x |
+| long.b      |   1 min  9.5 sec |           7.6 sec |       9.0x |
+| hanoi.b     |         58.3 sec |           1.3 sec |      44.8x |
 
 ## CPU profiles
 
