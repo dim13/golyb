@@ -1,12 +1,12 @@
-# gofys
-Go f\*ck your self -- yet another optimizing BrainF\*ck interpreter in Go
+# golyb
+Go love your brain - yet another optimizing BrainF\*ck interpreter in Go
 
 ## Installation
-    go get -u github.com/dim13/gofys
+    go get -u github.com/dim13/golyb
 
 ## Usage
 ```
-Usage of gofys:
+Usage of golyb:
   -debug
     	Enable debugging
   -dump
@@ -48,10 +48,10 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 ## CPU profiles
 
 ### mandelbrot.b
-![mandelbrot profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/mandelbrot.gif)
+![mandelbrot profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/mandelbrot.gif)
 
 ### long.b
-![long profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/long.gif)
+![long profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/long.gif)
 
 ### hanoi.b
-![hanoi profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/hanoi.gif)
+![hanoi profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/hanoi.gif)
