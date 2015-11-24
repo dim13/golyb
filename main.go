@@ -15,7 +15,6 @@ var (
 	in      = flag.String("in", "", "Input file")
 	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
 	noop    = flag.Bool("noop", false, "Disable optimization")
-	debug   = flag.Bool("debug", false, "Enable debugging")
 	dump    = flag.Bool("dump", false, "Dump AST")
 	show    = flag.Int("show", 0, "Dump # tape cells around last position")
 	profile = flag.String("profile", "", "Write CPU profile to file")
@@ -91,7 +90,7 @@ func main() {
 			log.Fatal(err)
 		}
 		s := st(o)
-		Execute(program, s, *debug)
+		Execute(program, s)
 		if *show > 0 {
 			cels, pos := s.Dump()
 			from := pos - *show/2

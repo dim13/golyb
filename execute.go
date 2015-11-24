@@ -1,7 +1,5 @@
 package main
 
-import "log"
-
 type Storage interface {
 	Add(int, int)
 	Move(int)
@@ -14,11 +12,8 @@ type Storage interface {
 	Dump() ([]int, int)
 }
 
-func Execute(p Program, s Storage, debug bool) {
+func Execute(p Program, s Storage) {
 	for _, cmd := range p {
-		if debug {
-			log.Println(cmd)
-		}
 		switch cmd.Op {
 		case Add:
 			s.Add(cmd.Arg, cmd.Off)
@@ -30,7 +25,7 @@ func Execute(p Program, s Storage, debug bool) {
 			s.Scan(cmd.Off)
 		case BNZ:
 			for !s.IsZero() {
-				Execute(cmd.Branch, s, debug)
+				Execute(cmd.Branch, s)
 			}
 		case Clear:
 			s.Clear(cmd.Off)

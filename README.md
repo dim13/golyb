@@ -7,8 +7,6 @@ Go love your brain - yet another optimizing BrainF\*ck interpreter in Go
 ## Usage
 ```
 Usage of golyb:
-  -debug
-        Enable debugging
   -dump
         Dump AST
   -file string
