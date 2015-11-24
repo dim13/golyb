@@ -8,19 +8,23 @@ Go love your brain - yet another optimizing BrainF\*ck interpreter in Go
 ```
 Usage of golyb:
   -debug
-    	Enable debugging
+        Enable debugging
   -dump
-    	Dump AST
+        Dump AST
   -file string
-    	Source file (required)
+        Source file (required)
+  -in string
+        Input file
   -noopt
-    	Disable optimization
+        Disable optimization
   -out string
-    	Output file or /dev/null
+        Output file or /dev/null
   -profile string
-    	Write CPU profile to file
+        Write CPU profile to file
+  -show int
+        Dump # tape cells around last position
   -tape string
-    	Tape type: static or dynamic (default "static")
+        Tape type: static or dynamic (default "static")
 ```
 
 ## Tape storage type
