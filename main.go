@@ -10,9 +10,9 @@ import (
 )
 
 var (
-	file    = flag.String("file", "", "Source file")
-	out     = flag.String("out", "", "Output file")
-	tape    = flag.String("tape", "static", "Tape type: static/dynamic")
+	file    = flag.String("file", "", "Source file (required)")
+	out     = flag.String("out", "", "Output file or /dev/null")
+	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
 	noopt   = flag.Bool("noopt", false, "Disable optimization")
 	debug   = flag.Bool("debug", false, "Enable debugging")
 	dump    = flag.Bool("dump", false, "Dump AST")

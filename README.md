@@ -1,11 +1,11 @@
 # gofys
 Go f\*ck your self -- yet another optimizing BrainF\*ck interpreter in Go
 
-## tape storage
-- static: 32k including 1k margin on left side (default)
+## Tape storage
+- static: 32k cells including 1k margin on the lower end (used by default)
 - dynamic: allocates in 1k chunks as required on access
 
-## code optimization
+## Code optimization
 - [x] Contraction
 - [x] Clear loops
 - [x] Copy loops
@@ -15,7 +15,29 @@ Go f\*ck your self -- yet another optimizing BrainF\*ck interpreter in Go
 
 Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 
-## some rough results
+## Installation
+    go get -u github.com/dim13/gofys
+
+## Usage
+```
+Usage of gofys:
+  -debug
+    	Enable debugging
+  -dump
+    	Dump AST
+  -file string
+    	Source file (required)
+  -noopt
+    	Disable optimization
+  -out string
+    	Output file or /dev/null
+  -profile string
+    	Write CPU profile to file
+  -tape string
+    	Tape type: static or dynamic (default "static")
+```
+
+## Some rough results
 
 | Program     | with optimization | w/o optimization | speed gain |
 | ----------- | -----------------:| ----------------:| ----------:|
@@ -23,7 +45,7 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 | long.b      | 10.9 sec          | 1 min 36.4 sec   | 8.8x       |
 | hanoi.b     |  1.8 sec          | 1 min 18.3 sec   | 43.5x      |
 
-## profiles
+## CPU profiles
 
 ### mandelbrod.b
 ![mandelbrod profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/mandelbrod.gif)
