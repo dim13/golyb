@@ -22,22 +22,31 @@ func NewDynamicTape(out io.ReadWriter) Storage {
 	}
 }
 
-func (t *DynamicTape) Move(n int) {
-	t.pos += n
-	if t.pos >= len(t.cell) {
+func (t *DynamicTape) check(pos int) {
+	if pos >= len(t.cell) {
 		t.cell = append(t.cell, make([]int, size)...)
-	} else if t.pos < 0 {
+	}
+	if pos < 0 {
 		t.cell = append(make([]int, size), t.cell...)
 		t.pos += size
 	}
 }
 
+func (t *DynamicTape) Move(n int) {
+	t.pos += n
+	t.check(t.pos)
+}
+
 func (t *DynamicTape) Add(n, off int) {
-	t.cell[t.pos+off] += n
+	x := t.pos + off
+	t.check(x)
+	t.cell[x] += n
 }
 
 func (t *DynamicTape) Print(off int) {
-	if c := t.cell[t.pos+off]; c > unicode.MaxASCII {
+	x := t.pos + off
+	t.check(x)
+	if c := t.cell[x]; c > unicode.MaxASCII {
 		fmt.Fprintf(t.out, "%d", c)
 	} else {
 		fmt.Fprintf(t.out, "%c", c)
@@ -45,7 +54,9 @@ func (t *DynamicTape) Print(off int) {
 }
 
 func (t *DynamicTape) Scan(off int) {
-	fmt.Fscanf(t.out, "%c", &t.cell[t.pos+off])
+	x := t.pos + off
+	t.check(x)
+	fmt.Fscanf(t.out, "%c", &t.cell[x])
 }
 
 func (t *DynamicTape) IsZero() bool {
@@ -53,11 +64,15 @@ func (t *DynamicTape) IsZero() bool {
 }
 
 func (t *DynamicTape) Clear(off int) {
-	t.cell[t.pos+off] = 0
+	x := t.pos + off
+	t.check(x)
+	t.cell[x] = 0
 }
 
 func (t *DynamicTape) Mult(dst, arg, off int) {
-	v := t.cell[t.pos+off]
+	x := t.pos + off
+	t.check(x)
+	v := t.cell[x]
 	t.Move(dst)
 	t.Add(v*arg, off)
 	t.Move(-dst)
