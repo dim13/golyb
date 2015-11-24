@@ -16,11 +16,16 @@ func OptOffset(p Program) Program {
 				Off: b[0].Arg,
 			})
 			// push back combined move
+			m := b[0].Arg + b[2].Arg
 			p[i+2] = Command{
 				Op:  Move,
-				Arg: b[0].Arg + b[2].Arg,
+				Arg: m,
 			}
-			i += 1
+			if m == 0 {
+				i += 2
+			} else {
+				i += 1
+			}
 		case len(b) >= 4 &&
 			b[0].Op == Move &&
 			b[1].Op == Mult &&
@@ -32,17 +37,22 @@ func OptOffset(p Program) Program {
 				Arg: b[1].Arg,
 				Off: b[0].Arg,
 			})
-			// push back combined move
 			o = append(o, Command{
 				Op:  b[2].Op,
 				Arg: b[2].Arg,
 				Off: b[0].Arg,
 			})
+			// push back combined move
+			m := b[0].Arg + b[3].Arg
 			p[i+3] = Command{
 				Op:  Move,
 				Arg: b[0].Arg + b[3].Arg,
 			}
-			i += 2
+			if m == 0 {
+				i += 3
+			} else {
+				i += 2
+			}
 		default:
 			p[i].Branch = OptOffset(p[i].Branch)
 			o = append(o, p[i])
