@@ -11,13 +11,13 @@ import (
 
 var (
 	file    = flag.String("file", "", "Source file (required)")
-	out     = flag.String("out", "", "Output file or /dev/null")
 	in      = flag.String("in", "", "Input file")
-	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
-	noop    = flag.Bool("noop", false, "Disable optimization")
-	dump    = flag.Bool("dump", false, "Dump AST")
-	show    = flag.Int("show", 0, "Dump # tape cells around last position")
+	out     = flag.String("out", "", "Output file or /dev/null")
 	profile = flag.String("profile", "", "Write CPU profile to file")
+	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
+	dump    = flag.Bool("dump", false, "Dump AST and terminate")
+	noop    = flag.Bool("noop", false, "Disable optimization")
+	show    = flag.Int("show", 0, "Dump # tape cells around last position")
 )
 
 func output(out, in string) (io.ReadWriter, error) {
