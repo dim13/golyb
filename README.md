@@ -25,8 +25,11 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 
 ## profiles
 
+### mandelbrod.b
 ![mandelbrod profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/mandelbrod.gif)
 
+### long.b
 ![long profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/long.gif)
 
+### hanoi.b
 ![hanoi profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/hanoi.gif)
