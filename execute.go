@@ -13,9 +13,9 @@ type Storage interface {
 	Search(int)
 }
 
-func Execute(p Program, s Storage) {
+func Execute(p Program, s Storage, debug bool) {
 	for _, cmd := range p {
-		if *debug {
+		if debug {
 			log.Println(cmd)
 		}
 		switch cmd.Op {
@@ -29,7 +29,7 @@ func Execute(p Program, s Storage) {
 			s.Scan(cmd.Off)
 		case BNZ:
 			for !s.IsZero() {
-				Execute(cmd.Branch, s)
+				Execute(cmd.Branch, s, debug)
 			}
 		case Clear:
 			s.Clear(cmd.Off)

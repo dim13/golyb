@@ -91,7 +91,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		Execute(program, st(o))
+		Execute(program, st(o), *debug)
 	} else {
 		flag.Usage()
 		return
