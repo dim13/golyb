@@ -19,7 +19,7 @@ var (
 	profile = flag.String("profile", "", "Write CPU profile to file")
 )
 
-func output(out string) (*os.File, error) {
+func output(out string) (io.ReadWriter, error) {
 	if out == "" {
 		return os.Stdout, nil
 	}
