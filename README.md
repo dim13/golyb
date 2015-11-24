@@ -27,8 +27,6 @@ Usage of gofys:
 - static: 32k cells including 1k margin on the lower end (used by default)
 - dynamic: allocates in 1k chunks as required on access
 
-Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
-
 # Code optimization
 - [x] Contraction
 - [x] Clear loops
@@ -36,6 +34,8 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 - [x] Multiplication loops
 - [x] Scan loops (kind of)
 - [x] Operation offsets
+
+Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 
 ## Some rough results
 
