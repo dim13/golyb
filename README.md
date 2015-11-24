@@ -36,7 +36,7 @@ Usage of golyb:
 - [x] Multiplication loops
 - [x] Scan loops (kind of)
 - [x] Operation offsets
-- [x] NOPs
+- [x] Reduce NOPs
 
 Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 
