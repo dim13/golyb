@@ -17,6 +17,7 @@ var (
 	noopt   = flag.Bool("noopt", false, "Disable optimization")
 	debug   = flag.Bool("debug", false, "Enable debugging")
 	dump    = flag.Bool("dump", false, "Dump AST")
+	show    = flag.Int("show", 0, "Dump # tape cells around last position")
 	profile = flag.String("profile", "", "Write CPU profile to file")
 )
 
@@ -91,7 +92,20 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		Execute(program, st(o), *debug)
+		s := st(o)
+		Execute(program, s, *debug)
+		if *show > 0 {
+			cels, pos := s.Dump()
+			from := pos - *show/2
+			if from < 0 {
+				from = 0
+			}
+			to := pos + *show/2
+			if to > len(cels) {
+				to = len(cels)
+			}
+			log.Println("From", from, "to", to, cels[from:to])
+		}
 	} else {
 		flag.Usage()
 		return

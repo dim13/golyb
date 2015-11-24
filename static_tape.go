@@ -58,3 +58,7 @@ func (t *StaticTape) Search(n int) {
 		t.pos += n
 	}
 }
+
+func (t *StaticTape) Dump() ([]int, int) {
+	return t.cell, t.pos
+}

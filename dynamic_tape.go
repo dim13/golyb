@@ -69,3 +69,7 @@ func (t *DynamicTape) Search(n int) {
 		t.Move(n)
 	}
 }
+
+func (t *DynamicTape) Dump() ([]int, int) {
+	return t.cell, t.pos
+}
