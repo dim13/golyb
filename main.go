@@ -14,7 +14,7 @@ var (
 	out     = flag.String("out", "", "Output file or /dev/null")
 	in      = flag.String("in", "", "Input file")
 	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
-	noopt   = flag.Bool("noopt", false, "Disable optimization")
+	noop    = flag.Bool("noop", false, "Disable optimization")
 	debug   = flag.Bool("debug", false, "Enable debugging")
 	dump    = flag.Bool("dump", false, "Dump AST")
 	show    = flag.Int("show", 0, "Dump # tape cells around last position")
@@ -76,7 +76,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if !*noopt {
+	if !*noop {
 		program = Optimize(program)
 	}
 

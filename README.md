@@ -15,7 +15,7 @@ Usage of golyb:
         Source file (required)
   -in string
         Input file
-  -noopt
+  -noop
         Disable optimization
   -out string
         Output file or /dev/null
