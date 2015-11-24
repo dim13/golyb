@@ -2,7 +2,6 @@ package main
 
 func OptOffset(p Program) Program {
 	var o Program
-	var lastmove Command
 	// [>>>?<<<] for Add, Print, Scan, Clear, Mult
 	// not for Move, BNZ, Search
 	for i := 0; i < len(p); i++ {
@@ -16,11 +15,11 @@ func OptOffset(p Program) Program {
 				Arg: b[1].Arg,
 				Off: b[0].Arg,
 			})
-			lastmove = Command{
+			// push back combined move
+			p[i+2] = Command{
 				Op:  Move,
 				Arg: b[0].Arg + b[2].Arg,
 			}
-			p[i+2] = lastmove
 			i += 1
 		case len(b) >= 4 &&
 			b[0].Op == Move &&
@@ -33,16 +32,16 @@ func OptOffset(p Program) Program {
 				Arg: b[1].Arg,
 				Off: b[0].Arg,
 			})
+			// push back combined move
 			o = append(o, Command{
 				Op:  b[2].Op,
 				Arg: b[2].Arg,
 				Off: b[0].Arg,
 			})
-			lastmove = Command{
+			p[i+3] = Command{
 				Op:  Move,
 				Arg: b[0].Arg + b[3].Arg,
 			}
-			p[i+3] = lastmove
 			i += 2
 		default:
 			p[i].Branch = OptOffset(p[i].Branch)
