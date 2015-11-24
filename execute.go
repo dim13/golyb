@@ -33,6 +33,8 @@ func Execute(p Program, s Storage) {
 			s.Mult(cmd.Dst, cmd.Arg, cmd.Off)
 		case Search:
 			s.Search(cmd.Arg)
+		default:
+			panic("unknown opcode")
 		}
 	}
 }
