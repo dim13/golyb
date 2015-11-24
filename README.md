@@ -1,5 +1,5 @@
-# golyb
-Go love your brain - yet another optimizing BrainF\*ck interpreter in Go
+# Go love your brain
+Yet another optimizing BrainF\*ck interpreter in Go
 
 ## Installation
     go get -u github.com/dim13/golyb
