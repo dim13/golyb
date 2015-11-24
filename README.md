@@ -17,8 +17,8 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 
 ## some rough results
 
-| Program     | with optimization | w/o optimization | gain |
-| ----------- | -----------------:| ----------------:| ----:|
-| madelbrot.b | 38 s              | 2 min 35 sec     | 4x   |
-| long.b      | 16 s              | 4 min            | 15x  |
-| hanoi.b     |  3 s              | 3 min 50 sec     | 77x  |
+| Program     | with optimization | w/o optimization | speed gain |
+| ----------- | -----------------:| ----------------:| ----------:|
+| madelbrot.b | 20.7 s            | 1 min 54.3 sec   | 5.5x       |
+| long.b      | 10.9 s            | 1 min 36.4 sec   | 8.8x       |
+| hanoi.b     |  1.8 s            | 1 min 18.3 sec   | 43.5x      |

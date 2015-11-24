@@ -6,15 +6,17 @@ import (
 	"io"
 	"log"
 	"os"
+	"runtime/pprof"
 )
 
 var (
-	file  = flag.String("file", "", "Source file")
-	out   = flag.String("out", "", "Output file")
-	tape  = flag.String("tape", "static", "Tape type: static/dynamic")
-	noopt = flag.Bool("noopt", false, "Disable optimization")
-	debug = flag.Bool("debug", false, "Enable debugging")
-	dump  = flag.Bool("dump", false, "Dump AST")
+	file    = flag.String("file", "", "Source file")
+	out     = flag.String("out", "", "Output file")
+	tape    = flag.String("tape", "static", "Tape type: static/dynamic")
+	noopt   = flag.Bool("noopt", false, "Disable optimization")
+	debug   = flag.Bool("debug", false, "Enable debugging")
+	dump    = flag.Bool("dump", false, "Dump AST")
+	profile = flag.String("profile", "", "Write CPU profile to file")
 )
 
 func output(out string) *os.File {
@@ -32,6 +34,15 @@ var storage = map[string]func(io.ReadWriter) Storage{
 
 func main() {
 	flag.Parse()
+
+	if *profile != "" {
+		f, err := os.Create(*profile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
 
 	if *file == "" {
 		flag.Usage()

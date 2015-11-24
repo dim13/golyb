@@ -14,11 +14,6 @@ type Storage interface {
 }
 
 func Execute(p Program, s Storage) {
-	defer func() {
-		if r := recover(); r != nil {
-			log.Fatal(r)
-		}
-	}()
 	for _, cmd := range p {
 		if *debug {
 			log.Println(cmd)
