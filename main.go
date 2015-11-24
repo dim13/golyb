@@ -77,9 +77,7 @@ func main() {
 	}
 
 	if !*noopt {
-		program = OptContract(program)
-		program = OptLoops(program)
-		program = OptOffset(program)
+		program = Optimize(program)
 	}
 
 	if *dump {

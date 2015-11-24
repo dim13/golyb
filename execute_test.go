@@ -5,17 +5,10 @@ import (
 	"testing"
 )
 
-func opt(p Program) Program {
-	p = OptContract(p)
-	p = OptLoops(p)
-	p = OptOffset(p)
-	return p
-}
-
 func exec(prog string) {
 	t := NewStaticTape(os.Stdout)
 	p := ParseString(prog)
-	Execute(opt(p), t, false)
+	Execute(Optimize(p), t, false)
 }
 
 // Hello World!
@@ -57,7 +50,7 @@ func bench(b *testing.B, fname string, optimize bool) {
 		b.Fatal(err)
 	}
 	if optimize {
-		p = opt(p)
+		p = Optimize(p)
 	}
 	for i := 0; i < b.N; i++ {
 		t := NewStaticTape(devNull{})

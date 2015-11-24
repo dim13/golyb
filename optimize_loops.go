@@ -89,6 +89,8 @@ func OptLoops(p Program) Program {
 					Arg: b[3].Arg,
 				})
 				o = append(o, Command{Op: Clear})
+			case len(b) == 0:
+				continue
 			default:
 				cmd.Branch = OptLoops(cmd.Branch)
 				o = append(o, cmd)

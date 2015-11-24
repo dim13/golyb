@@ -1,7 +1,7 @@
 package main
 
 func scan(p Program) (Command, int) {
-	n := 1
+	n := 0
 	c := p[0]
 	for _, cmd := range p[1:] {
 		if cmd.Op == c.Op {
@@ -20,8 +20,10 @@ func OptContract(p Program) Program {
 		switch cmd := p[i]; cmd.Op {
 		case Add, Move:
 			cmd, n := scan(p[i:])
-			o = append(o, cmd)
-			i += n - 1
+			if cmd.Arg != 0 {
+				o = append(o, cmd)
+			}
+			i += n
 		default:
 			cmd.Branch = OptContract(cmd.Branch)
 			o = append(o, cmd)
