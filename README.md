@@ -1,20 +1,6 @@
 # gofys
 Go f\*ck your self -- yet another optimizing BrainF\*ck interpreter in Go
 
-## Tape storage
-- static: 32k cells including 1k margin on the lower end (used by default)
-- dynamic: allocates in 1k chunks as required on access
-
-## Code optimization
-- [x] Contraction
-- [x] Clear loops
-- [x] Copy loops
-- [x] Multiplication loops
-- [x] Scan loops (kind of)
-- [x] Operation offsets
-
-Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
-
 ## Installation
     go get -u github.com/dim13/gofys
 
@@ -36,6 +22,20 @@ Usage of gofys:
   -tape string
     	Tape type: static or dynamic (default "static")
 ```
+
+## Tape storage type
+- static: 32k cells including 1k margin on the lower end (used by default)
+- dynamic: allocates in 1k chunks as required on access
+
+Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
+
+# Code optimization
+- [x] Contraction
+- [x] Clear loops
+- [x] Copy loops
+- [x] Multiplication loops
+- [x] Scan loops (kind of)
+- [x] Operation offsets
 
 ## Some rough results
 
