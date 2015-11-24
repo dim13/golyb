@@ -22,3 +22,11 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 | madelbrot.b | 20.7 sec          | 1 min 54.3 sec   | 5.5x       |
 | long.b      | 10.9 sec          | 1 min 36.4 sec   | 8.8x       |
 | hanoi.b     |  1.8 sec          | 1 min 18.3 sec   | 43.5x      |
+
+## profiles
+
+![mandelbrod profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/mandelbrod.gif)
+
+![long profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/long.gif)
+
+![hanoi profile](https://raw.githubusercontent.com/dim13/gofys/master/profiles/hanoi.gif)
