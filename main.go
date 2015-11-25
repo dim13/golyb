@@ -56,6 +56,12 @@ var storage = map[string]func(io.ReadWriter) Storage{
 func main() {
 	flag.Parse()
 
+	defer func() {
+		if r := recover(); r != nil {
+			log.Fatal(r)
+		}
+	}()
+
 	if *profile != "" {
 		f, err := os.Create(*profile)
 		if err != nil {
