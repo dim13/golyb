@@ -86,7 +86,7 @@ func main() {
 	}
 
 	if *dump {
-		fmt.Println(program)
+		fmt.Printf("%+v\n", program)
 		return
 	}
 
