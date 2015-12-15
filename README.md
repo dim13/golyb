@@ -51,10 +51,19 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 ## CPU profiles
 
 ### mandelbrot.b
+#### optimized
 ![mandelbrot profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/mandelbrot.gif)
+#### not optimized
+![mandelbrot profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/mandelbrot_noop.gif)
 
 ### long.b
+#### optimized
 ![long profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/long.gif)
+#### not optimized
+![long profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/long_noop.gif)
 
 ### hanoi.b
+#### optimized
 ![hanoi profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/hanoi.gif)
+#### not optimized
+![hanoi profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/hanoi_noop.gif)
