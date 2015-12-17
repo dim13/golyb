@@ -6,17 +6,17 @@ import (
 	"unicode"
 )
 
-const size = 1024
-
 type DynamicTape struct {
 	cell []int
 	pos  int
 	out  io.ReadWriter
 }
 
+const chunkSize = 1024
+
 func NewDynamicTape(out io.ReadWriter) Storage {
 	return &DynamicTape{
-		cell: make([]int, size),
+		cell: make([]int, chunkSize),
 		pos:  0,
 		out:  out,
 	}
@@ -24,11 +24,11 @@ func NewDynamicTape(out io.ReadWriter) Storage {
 
 func (t *DynamicTape) check(pos int) {
 	if pos >= len(t.cell) {
-		t.cell = append(t.cell, make([]int, size)...)
+		t.cell = append(t.cell, make([]int, chunkSize)...)
 	}
 	if pos < 0 {
-		t.cell = append(make([]int, size), t.cell...)
-		t.pos += size
+		t.cell = append(make([]int, chunkSize), t.cell...)
+		t.pos += chunkSize
 	}
 }
 

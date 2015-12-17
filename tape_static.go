@@ -12,10 +12,15 @@ type StaticTape struct {
 	out  io.ReadWriter
 }
 
+const (
+	tapeSize = 30 * 1024
+	margin   = 1024
+)
+
 func NewStaticTape(out io.ReadWriter) Storage {
 	return &StaticTape{
-		cell: make([]int, 32768),
-		pos:  1024, // left some space on LHS
+		cell: make([]int, tapeSize+2*margin),
+		pos:  margin, // left some space on LHS
 		out:  out,
 	}
 }
