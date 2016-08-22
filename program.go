@@ -75,6 +75,18 @@ func ParseString(prog string) Program {
 	return parse(bytes.NewBufferString(prog))
 }
 
+type Storage interface {
+	Add(int, int)
+	Move(int)
+	Print(int)
+	Scan(int)
+	IsZero() bool
+	Clear(int)
+	Mult(int, int, int)
+	Search(int)
+	Dump() ([]int, int)
+}
+
 func (p Program) Execute(s Storage) {
 	for _, cmd := range p {
 		switch cmd.Op {
