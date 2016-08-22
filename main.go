@@ -96,7 +96,7 @@ func main() {
 			log.Fatal(err)
 		}
 		s := st(o)
-		Execute(program, s)
+		program.Execute(s)
 		if *show > 0 {
 			cels, pos := s.Dump()
 			from := pos - *show/2
