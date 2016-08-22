@@ -90,27 +90,28 @@ func main() {
 		return
 	}
 
-	if st, ok := storage[*tape]; ok {
-		o, err := output(*out, *in)
-		if err != nil {
-			log.Fatal(err)
-		}
-		s := st(o)
-		program.Execute(s)
-		if *show > 0 {
-			cels, pos := s.Dump()
-			from := pos - *show/2
-			if from < 0 {
-				from = 0
-			}
-			to := pos + *show/2
-			if to > len(cels) {
-				to = len(cels)
-			}
-			log.Println("From", from, "to", to, cels[from:to])
-		}
-	} else {
+	st, ok := storage[*tape]
+	if !ok {
 		flag.Usage()
 		return
+	}
+
+	o, err := output(*out, *in)
+	if err != nil {
+		log.Fatal(err)
+	}
+	s := st(o)
+	program.Execute(s)
+	if *show > 0 {
+		cels, pos := s.Dump()
+		from := pos - *show/2
+		if from < 0 {
+			from = 0
+		}
+		to := pos + *show/2
+		if to > len(cels) {
+			to = len(cels)
+		}
+		log.Println("From", from, "to", to, cels[from:to])
 	}
 }
