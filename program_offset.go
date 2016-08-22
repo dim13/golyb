@@ -1,6 +1,6 @@
 package main
 
-func OptOffset(p Program) Program {
+func (p Program) Offset() Program {
 	var o Program
 	// [>>>?<<<] for Add, Print, Scan, Clear, Mult
 	// not for Move, BNZ, Search
@@ -54,7 +54,7 @@ func OptOffset(p Program) Program {
 				i += 2
 			}
 		default:
-			p[i].Branch = OptOffset(p[i].Branch)
+			p[i].Branch = p[i].Branch.Offset()
 			o = append(o, p[i])
 		}
 	}

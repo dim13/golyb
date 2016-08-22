@@ -14,7 +14,7 @@ func scan(p Program) (Command, int) {
 	return c, n
 }
 
-func OptContract(p Program) Program {
+func (p Program) Contract() Program {
 	var o Program
 	for i := 0; i < len(p); i++ {
 		switch cmd := p[i]; cmd.Op {
@@ -25,7 +25,7 @@ func OptContract(p Program) Program {
 			}
 			i += n
 		default:
-			cmd.Branch = OptContract(cmd.Branch)
+			cmd.Branch = cmd.Branch.Contract()
 			o = append(o, cmd)
 		}
 	}

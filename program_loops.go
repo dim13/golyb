@@ -15,7 +15,7 @@ func match(p Program, q Program) bool {
 	return true
 }
 
-func OptLoops(p Program) Program {
+func (p Program) Loops() Program {
 	var o Program
 	for _, cmd := range p {
 		switch cmd.Op {
@@ -92,7 +92,7 @@ func OptLoops(p Program) Program {
 			case len(b) == 0:
 				continue
 			default:
-				cmd.Branch = OptLoops(cmd.Branch)
+				cmd.Branch = cmd.Branch.Loops()
 				o = append(o, cmd)
 			}
 		default:

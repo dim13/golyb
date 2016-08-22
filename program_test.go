@@ -6,7 +6,7 @@ import (
 )
 
 func exec(prog string) {
-	Optimize(ParseString(prog)).Execute(NewStaticTape(os.Stdout))
+	ParseString(prog).Optimize().Execute(NewStaticTape(os.Stdout))
 }
 
 // Hello World!
@@ -48,7 +48,7 @@ func bench(b *testing.B, fname string, optimize bool) {
 		b.Fatal(err)
 	}
 	if optimize {
-		p = Optimize(p)
+		p = p.Optimize()
 	}
 	for i := 0; i < b.N; i++ {
 		p.Execute(NewStaticTape(devNull{}))

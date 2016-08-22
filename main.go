@@ -82,7 +82,7 @@ func main() {
 	}
 
 	if !*noop {
-		program = Optimize(program)
+		program = program.Optimize()
 	}
 
 	if *dump {
