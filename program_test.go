@@ -10,30 +10,30 @@ func exec(prog string) {
 }
 
 // Hello World!
-const helloWorld = `++++++++++[>+++++++>++++++++++>+++>+<<<<-]
+const HelloWorld = `++++++++++[>+++++++>++++++++++>+++>+<<<<-]
 >++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.`
 
-func ExamplehelloWorld() {
-	exec(helloWorld)
+func ExampleHelloWorld() {
+	exec(HelloWorld)
 	// Output: Hello World!
 }
 
 // Prints 202
-const numeric = `>+>+>+>+>++<[>[<+++>-]<<]>.`
+const Numeric = `>+>+>+>+>++<[>[<+++>-]<<]>.`
 
 // Numeric output
-func Examplenumeric() {
-	exec(numeric)
+func ExampleNumeric() {
+	exec(Numeric)
 	// Output: 202
 }
 
 // Goes to cell 30000 and reports from there with a #. (Verifies that the
 // array is big enough.)
-const faraway = `++++[>++++++<-]>[>+++++>+++++++<<-]>>++++<
+const FarAway = `++++[>++++++<-]>[>+++++>+++++++<<-]>>++++<
 [[>[[>>+<<-]<]>>>-]>-[>+>+<<-]>]+++++[>+++++++<<++>-]>.<<.`
 
-func Examplefaraway() {
-	exec(faraway)
+func ExampleFarAway() {
+	exec(FarAway)
 	// Output: #
 }
 
