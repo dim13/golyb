@@ -13,7 +13,7 @@ func exec(prog string) {
 const helloWorld = `++++++++++[>+++++++>++++++++++>+++>+<<<<-]
 >++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.`
 
-func ExampleHelloWorld() {
+func ExamplehelloWorld() {
 	exec(helloWorld)
 	// Output: Hello World!
 }
@@ -22,7 +22,7 @@ func ExampleHelloWorld() {
 const numeric = `>+>+>+>+>++<[>[<+++>-]<<]>.`
 
 // Numeric output
-func ExampleNumeric() {
+func Examplenumeric() {
 	exec(numeric)
 	// Output: 202
 }
@@ -32,7 +32,7 @@ func ExampleNumeric() {
 const faraway = `++++[>++++++<-]>[>+++++>+++++++<<-]>>++++<
 [[>[[>>+<<-]<]>>>-]>-[>+>+<<-]>]+++++[>+++++++<<++>-]>.<<.`
 
-func ExampleFarAway() {
+func Examplefaraway() {
 	exec(faraway)
 	// Output: #
 }
