@@ -1,4 +1,4 @@
 language: go
-version:
+go:
   - release
   - tip
