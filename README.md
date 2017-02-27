@@ -11,21 +11,21 @@ Yet another optimizing BrainF\*ck interpreter in Go
 ```
 Usage of golyb:
   -dump
-        Dump AST
+    	Dump AST and terminate
   -file string
-        Source file (required)
+    	Source file (required)
   -in string
-        Input file
+    	Input file
   -noop
-        Disable optimization
+    	Disable optimization
   -out string
-        Output file or /dev/null
+    	Output file or /dev/null
   -profile string
-        Write CPU profile to file
-  -show int
-        Dump # tape cells around last position
+    	Write CPU profile to file
+  -show
+    	Dump tape cells
   -tape string
-        Tape type: static or dynamic (default "static")
+    	Tape type: static, dynamic or short (default "static")
 ```
 
 ## Tape storage type

@@ -9,7 +9,6 @@ type Storage interface {
 	Clear(int)
 	Mult(int, int, int)
 	Search(int)
-	Dump() ([]int, int)
 }
 
 func (p Program) Execute(s Storage) {

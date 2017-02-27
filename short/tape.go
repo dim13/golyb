@@ -1,15 +1,14 @@
-package static
+package short
 
 import (
 	"fmt"
 	"io"
-	"unicode"
 
 	"github.com/dim13/golyb"
 )
 
 type Tape struct {
-	cell []int
+	cell []byte
 	pos  int
 	out  io.ReadWriter
 }
@@ -21,7 +20,7 @@ const (
 
 func NewTape(out io.ReadWriter) golyb.Storage {
 	return &Tape{
-		cell: make([]int, tapeSize+2*margin),
+		cell: make([]byte, tapeSize+2*margin),
 		pos:  margin, // left some space on LHS
 		out:  out,
 	}
@@ -32,16 +31,11 @@ func (t *Tape) Move(n int) {
 }
 
 func (t *Tape) Add(n, off int) {
-	t.cell[t.pos+off] += n
+	t.cell[t.pos+off] += byte(n)
 }
 
 func (t *Tape) Print(off int) {
-	format := "%c"
-	v := t.cell[t.pos+off]
-	if v > unicode.MaxASCII {
-		format = "%d"
-	}
-	fmt.Fprintf(t.out, format, v)
+	fmt.Fprintf(t.out, "%c", t.cell[t.pos+off])
 }
 
 func (t *Tape) Scan(off int) {
@@ -57,7 +51,7 @@ func (t *Tape) Clear(off int) {
 }
 
 func (t *Tape) Mult(dst, arg, off int) {
-	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * arg
+	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * byte(arg)
 }
 
 func (t *Tape) Search(n int) {

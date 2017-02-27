@@ -11,6 +11,7 @@ import (
 	"github.com/dim13/golyb"
 	"github.com/dim13/golyb/dynamic"
 	"github.com/dim13/golyb/optimize"
+	"github.com/dim13/golyb/short"
 	"github.com/dim13/golyb/static"
 )
 
@@ -20,13 +21,14 @@ func main() {
 		in      = flag.String("in", "", "Input file")
 		out     = flag.String("out", "", "Output file or /dev/null")
 		profile = flag.String("profile", "", "Write CPU profile to file")
-		tape    = flag.String("tape", "static", "Tape type: static or dynamic")
+		tape    = flag.String("tape", "static", "Tape type: static, dynamic or short")
 		dump    = flag.Bool("dump", false, "Dump AST and terminate")
 		noop    = flag.Bool("noop", false, "Disable optimization")
-		show    = flag.Int("show", 0, "Dump # tape cells around last position")
+		show    = flag.Bool("show", false, "Dump tape cells")
 		store   = map[string]func(io.ReadWriter) golyb.Storage{
 			"static":  static.NewTape,
 			"dynamic": dynamic.NewTape,
+			"short":   short.NewTape,
 		}
 	)
 	flag.Parse()
@@ -76,19 +78,10 @@ func main() {
 		return
 	}
 
-	s := storage(o)
-	program.Execute(s)
+	st := storage(o)
+	program.Execute(st)
 
-	if *show > 0 {
-		cels, pos := s.Dump()
-		from := pos - *show/2
-		if from < 0 {
-			from = 0
-		}
-		to := pos + *show/2
-		if to > len(cels) {
-			to = len(cels)
-		}
-		log.Println("From", from, "to", to, cels[from:to])
+	if *show {
+		fmt.Println(st)
 	}
 }

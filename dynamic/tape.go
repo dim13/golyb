@@ -87,6 +87,6 @@ func (t *Tape) Search(n int) {
 	}
 }
 
-func (t *Tape) Dump() ([]int, int) {
-	return t.cell, t.pos
+func (t *Tape) String() string {
+	return fmt.Sprint(t.cell)
 }
