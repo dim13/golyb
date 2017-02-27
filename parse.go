@@ -15,7 +15,7 @@ const (
 	Move
 	Print
 	Scan
-	Branch
+	Loop
 	Clear
 	Mult
 	Search
@@ -64,7 +64,7 @@ func parse(buf *bytes.Buffer) Program {
 		case ',':
 			p = append(p, Command{Op: Scan})
 		case '[':
-			p = append(p, Command{Op: Branch, Branch: parse(buf)})
+			p = append(p, Command{Op: Loop, Branch: parse(buf)})
 		case ']':
 			return p
 		}

@@ -17,7 +17,7 @@ func (p Program) String() string {
 func (p Program) dump(w io.Writer, n int) {
 	for _, c := range p {
 		fmt.Fprintf(w, "%*s%v\n", n*indLevel, "", c)
-		if c.Op == Branch {
+		if c.Op == Loop {
 			c.Branch.dump(w, n+1)
 		}
 	}

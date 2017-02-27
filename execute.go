@@ -22,7 +22,7 @@ func (p Program) Execute(s Storage) {
 			s.Print(cmd.Off)
 		case Scan:
 			s.Scan(cmd.Off)
-		case Branch:
+		case Loop:
 			for !s.IsZero() {
 				cmd.Branch.Execute(s)
 			}

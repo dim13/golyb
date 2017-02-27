@@ -21,7 +21,7 @@ func Loops(p golyb.Program) golyb.Program {
 	var o golyb.Program
 	for _, cmd := range p {
 		switch cmd.Op {
-		case golyb.Branch:
+		case golyb.Loop:
 			switch b := cmd.Branch; {
 			// [-] or [+]
 			case len(b) == 1 && match(b, golyb.Program{
