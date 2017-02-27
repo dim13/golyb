@@ -50,27 +50,23 @@ func parse(buf *bytes.Buffer) Program {
 		if err == io.EOF {
 			return p
 		}
-		var cmd Command
 		switch r {
 		case '+':
-			cmd = Command{Op: Add, Arg: 1}
+			p = append(p, Command{Op: Add, Arg: 1})
 		case '-':
-			cmd = Command{Op: Add, Arg: -1}
+			p = append(p, Command{Op: Add, Arg: -1})
 		case '>':
-			cmd = Command{Op: Move, Arg: 1}
+			p = append(p, Command{Op: Move, Arg: 1})
 		case '<':
-			cmd = Command{Op: Move, Arg: -1}
+			p = append(p, Command{Op: Move, Arg: -1})
 		case '.':
-			cmd = Command{Op: Print}
+			p = append(p, Command{Op: Print})
 		case ',':
-			cmd = Command{Op: Scan}
+			p = append(p, Command{Op: Scan})
 		case '[':
-			cmd = Command{Op: Branch, Branch: parse(buf)}
+			p = append(p, Command{Op: Branch, Branch: parse(buf)})
 		case ']':
 			return p
-		default:
-			continue
 		}
-		p = append(p, cmd)
 	}
 }
