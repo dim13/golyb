@@ -55,9 +55,9 @@ func bench(b *testing.B, fname string, optimize bool) {
 	}
 }
 
-func BenchmarkHanoi(b *testing.B)         { bench(b, "samples/hanoi.b", true) }
-func BenchmarkHanoiRaw(b *testing.B)      { bench(b, "samples/hanoi.b", false) }
-func BenchmarkMandelbrot(b *testing.B)    { bench(b, "samples/mandelbrot.b", true) }
-func BenchmarkMandelbrotRaw(b *testing.B) { bench(b, "samples/mandelbrot.b", false) }
-func BenchmarkLong(b *testing.B)          { bench(b, "samples/long.b", true) }
-func BenchmarkLongRaw(b *testing.B)       { bench(b, "samples/long.b", false) }
+func BenchmarkHanoi(b *testing.B)         { bench(b, "testdata/hanoi.b", true) }
+func BenchmarkHanoiRaw(b *testing.B)      { bench(b, "testdata/hanoi.b", false) }
+func BenchmarkMandelbrot(b *testing.B)    { bench(b, "testdata/mandelbrot.b", true) }
+func BenchmarkMandelbrotRaw(b *testing.B) { bench(b, "testdata/mandelbrot.b", false) }
+func BenchmarkLong(b *testing.B)          { bench(b, "testdata/long.b", true) }
+func BenchmarkLongRaw(b *testing.B)       { bench(b, "testdata/long.b", false) }
