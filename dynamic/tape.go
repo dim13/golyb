@@ -78,7 +78,7 @@ func (t *Tape) Mult(dst, arg, off int) {
 	t.Move(dst)
 	t.Add(v*arg, off)
 	t.Move(-dst)
-	//t.Clear() // inserted by optimization
+	t.cell[x] = 0 // Clear
 }
 
 func (t *Tape) Search(n int) {
