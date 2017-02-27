@@ -3,6 +3,7 @@ package short
 import (
 	"fmt"
 	"io"
+	"unicode"
 
 	"github.com/dim13/golyb"
 )
@@ -35,7 +36,11 @@ func (t *Tape) Add(n, off int) {
 }
 
 func (t *Tape) Print(off int) {
-	fmt.Fprintf(t.out, "%c", t.cell[t.pos+off])
+	if c := t.cell[t.pos+off]; c > unicode.MaxASCII {
+		fmt.Fprintf(t.out, "%d", c)
+	} else {
+		fmt.Fprintf(t.out, "%c", c)
+	}
 }
 
 func (t *Tape) Scan(off int) {

@@ -7,7 +7,7 @@ import (
 	"github.com/dim13/golyb"
 )
 
-func TestStatic(t *testing.T) {
+func TestShort(t *testing.T) {
 	testCases := []struct {
 		fname  string
 		output string

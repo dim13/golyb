@@ -36,12 +36,11 @@ func (t *Tape) Add(n, off int) {
 }
 
 func (t *Tape) Print(off int) {
-	format := "%c"
-	v := t.cell[t.pos+off]
-	if v > unicode.MaxASCII {
-		format = "%d"
+	if c := t.cell[t.pos+off]; c > unicode.MaxASCII {
+		fmt.Fprintf(t.out, "%d", c)
+	} else {
+		fmt.Fprintf(t.out, "%c", c)
 	}
-	fmt.Fprintf(t.out, format, v)
 }
 
 func (t *Tape) Scan(off int) {
