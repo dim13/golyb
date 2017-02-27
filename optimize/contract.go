@@ -1,6 +1,8 @@
-package golyb
+package optimize
 
-func scan(p Program) (Command, int) {
+import "github.com/dim13/golyb"
+
+func scan(p golyb.Program) (golyb.Command, int) {
 	n := 0
 	c := p[0]
 	for _, cmd := range p[1:] {
@@ -14,18 +16,18 @@ func scan(p Program) (Command, int) {
 	return c, n
 }
 
-func (p Program) Contract() Program {
-	var o Program
+func Contract(p golyb.Program) golyb.Program {
+	var o golyb.Program
 	for i := 0; i < len(p); i++ {
 		switch cmd := p[i]; cmd.Op {
-		case Add, Move:
+		case golyb.Add, golyb.Move:
 			cmd, n := scan(p[i:])
 			if cmd.Arg != 0 {
 				o = append(o, cmd)
 			}
 			i += n
 		default:
-			cmd.Branch = cmd.Branch.Contract()
+			cmd.Branch = Contract(cmd.Branch)
 			o = append(o, cmd)
 		}
 	}

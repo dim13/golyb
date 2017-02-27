@@ -113,7 +113,3 @@ func (p Program) Execute(s Storage) {
 		}
 	}
 }
-
-func (p Program) Optimize() Program {
-	return p.Contract().Loops().Offset()
-}

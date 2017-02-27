@@ -3,19 +3,22 @@ package golyb
 import (
 	"bytes"
 	"fmt"
-	"strings"
+	"io"
 )
 
-func (p Program) Dump() {
-	p.dump(0)
+const indLevel = 4
+
+func (p Program) String() string {
+	buf := new(bytes.Buffer)
+	p.dump(buf, 0)
+	return buf.String()
 }
 
-func (p Program) dump(n int) {
-	ind := strings.Repeat("    ", n)
+func (p Program) dump(w io.Writer, n int) {
 	for _, c := range p {
-		fmt.Printf("%s%v\n", ind, c)
+		fmt.Fprintf(w, "%*s%v\n", n*indLevel, "", c)
 		if c.Op == BNZ {
-			c.Branch.dump(n + 1)
+			c.Branch.dump(w, n+1)
 		}
 	}
 }

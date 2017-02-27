@@ -1,12 +1,14 @@
-package golyb
+package dynamic
 
 import (
 	"fmt"
 	"io"
 	"unicode"
+
+	"github.com/dim13/golyb"
 )
 
-type DynamicTape struct {
+type Tape struct {
 	cell []int
 	pos  int
 	out  io.ReadWriter
@@ -14,15 +16,15 @@ type DynamicTape struct {
 
 const chunkSize = 1024
 
-func NewDynamicTape(out io.ReadWriter) Storage {
-	return &DynamicTape{
+func NewTape(out io.ReadWriter) golyb.Storage {
+	return &Tape{
 		cell: make([]int, chunkSize),
 		pos:  0,
 		out:  out,
 	}
 }
 
-func (t *DynamicTape) grow(pos int) {
+func (t *Tape) grow(pos int) {
 	if pos >= len(t.cell) {
 		t.cell = append(t.cell, make([]int, chunkSize)...)
 	}
@@ -32,18 +34,18 @@ func (t *DynamicTape) grow(pos int) {
 	}
 }
 
-func (t *DynamicTape) Move(n int) {
+func (t *Tape) Move(n int) {
 	t.pos += n
 	t.grow(t.pos)
 }
 
-func (t *DynamicTape) Add(n, off int) {
+func (t *Tape) Add(n, off int) {
 	x := t.pos + off
 	t.grow(x)
 	t.cell[x] += n
 }
 
-func (t *DynamicTape) Print(off int) {
+func (t *Tape) Print(off int) {
 	x := t.pos + off
 	t.grow(x)
 	if c := t.cell[x]; c > unicode.MaxASCII {
@@ -53,23 +55,23 @@ func (t *DynamicTape) Print(off int) {
 	}
 }
 
-func (t *DynamicTape) Scan(off int) {
+func (t *Tape) Scan(off int) {
 	x := t.pos + off
 	t.grow(x)
 	fmt.Fscanf(t.out, "%c", &t.cell[x])
 }
 
-func (t *DynamicTape) IsZero() bool {
+func (t *Tape) IsZero() bool {
 	return t.cell[t.pos] == 0
 }
 
-func (t *DynamicTape) Clear(off int) {
+func (t *Tape) Clear(off int) {
 	x := t.pos + off
 	t.grow(x)
 	t.cell[x] = 0
 }
 
-func (t *DynamicTape) Mult(dst, arg, off int) {
+func (t *Tape) Mult(dst, arg, off int) {
 	x := t.pos + off
 	t.grow(x)
 	v := t.cell[x]
@@ -79,12 +81,12 @@ func (t *DynamicTape) Mult(dst, arg, off int) {
 	//t.Clear() // inserted by optimization
 }
 
-func (t *DynamicTape) Search(n int) {
+func (t *Tape) Search(n int) {
 	for !t.IsZero() {
 		t.Move(n)
 	}
 }
 
-func (t *DynamicTape) Dump() ([]int, int) {
+func (t *Tape) Dump() ([]int, int) {
 	return t.cell, t.pos
 }

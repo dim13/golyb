@@ -1,12 +1,14 @@
-package golyb
+package static
 
 import (
 	"fmt"
 	"io"
 	"unicode"
+
+	"github.com/dim13/golyb"
 )
 
-type StaticTape struct {
+type Tape struct {
 	cell []int
 	pos  int
 	out  io.ReadWriter
@@ -17,23 +19,23 @@ const (
 	margin   = 1024
 )
 
-func NewStaticTape(out io.ReadWriter) Storage {
-	return &StaticTape{
+func NewTape(out io.ReadWriter) golyb.Storage {
+	return &Tape{
 		cell: make([]int, tapeSize+2*margin),
 		pos:  margin, // left some space on LHS
 		out:  out,
 	}
 }
 
-func (t *StaticTape) Move(n int) {
+func (t *Tape) Move(n int) {
 	t.pos += n
 }
 
-func (t *StaticTape) Add(n, off int) {
+func (t *Tape) Add(n, off int) {
 	t.cell[t.pos+off] += n
 }
 
-func (t *StaticTape) Print(off int) {
+func (t *Tape) Print(off int) {
 	format := "%c"
 	v := t.cell[t.pos+off]
 	if v > unicode.MaxASCII {
@@ -42,28 +44,28 @@ func (t *StaticTape) Print(off int) {
 	fmt.Fprintf(t.out, format, v)
 }
 
-func (t *StaticTape) Scan(off int) {
+func (t *Tape) Scan(off int) {
 	fmt.Fscanf(t.out, "%c", &t.cell[t.pos+off])
 }
 
-func (t *StaticTape) IsZero() bool {
+func (t *Tape) IsZero() bool {
 	return t.cell[t.pos] == 0
 }
 
-func (t *StaticTape) Clear(off int) {
+func (t *Tape) Clear(off int) {
 	t.cell[t.pos+off] = 0
 }
 
-func (t *StaticTape) Mult(dst, arg, off int) {
+func (t *Tape) Mult(dst, arg, off int) {
 	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * arg
 }
 
-func (t *StaticTape) Search(n int) {
+func (t *Tape) Search(n int) {
 	for t.cell[t.pos] != 0 {
 		t.pos += n
 	}
 }
 
-func (t *StaticTape) Dump() ([]int, int) {
+func (t *Tape) Dump() ([]int, int) {
 	return t.cell, t.pos
 }

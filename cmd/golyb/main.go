@@ -2,12 +2,16 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"os"
 	"runtime/pprof"
 
 	"github.com/dim13/golyb"
+	"github.com/dim13/golyb/dynamic"
+	"github.com/dim13/golyb/optimize"
+	"github.com/dim13/golyb/static"
 )
 
 func output(out, in string) (io.ReadWriter, error) {
@@ -39,8 +43,8 @@ func output(out, in string) (io.ReadWriter, error) {
 }
 
 var storage = map[string]func(io.ReadWriter) golyb.Storage{
-	"static":  golyb.NewStaticTape,
-	"dynamic": golyb.NewDynamicTape,
+	"static":  static.NewTape,
+	"dynamic": dynamic.NewTape,
 }
 
 func main() {
@@ -82,11 +86,13 @@ func main() {
 	}
 
 	if !*noop {
-		program = program.Optimize()
+		program = optimize.Contract(program)
+		program = optimize.Loops(program)
+		program = optimize.Offset(program)
 	}
 
 	if *dump {
-		program.Dump()
+		fmt.Print(program)
 		return
 	}
 
