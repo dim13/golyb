@@ -1,8 +1,8 @@
 package optimize
 
-import "github.com/dim13/golyb"
+import . "github.com/dim13/golyb"
 
-func Optimize(p golyb.Program) golyb.Program {
+func Optimize(p Program) Program {
 	p = Contract(p)
 	p = Loops(p)
 	p = Offset(p)

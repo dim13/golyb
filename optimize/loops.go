@@ -1,8 +1,8 @@
 package optimize
 
-import "github.com/dim13/golyb"
+import . "github.com/dim13/golyb"
 
-func match(p golyb.Program, q golyb.Program) bool {
+func match(p Program, q Program) bool {
 	if len(p) != len(q) {
 		return false
 	}
@@ -17,82 +17,82 @@ func match(p golyb.Program, q golyb.Program) bool {
 	return true
 }
 
-func Loops(p golyb.Program) golyb.Program {
-	var o golyb.Program
+func Loops(p Program) Program {
+	var o Program
 	for _, cmd := range p {
 		switch cmd.Op {
-		case golyb.Loop:
+		case Loop:
 			switch b := cmd.Branch; {
 			// [-] or [+]
-			case len(b) == 1 && match(b, golyb.Program{
-				golyb.Command{Op: golyb.Add}}):
-				o = append(o, golyb.Command{Op: golyb.Clear})
+			case len(b) == 1 && match(b, Program{
+				Command{Op: Add}}):
+				o = append(o, Command{Op: Clear})
 			// [>] or [<]
-			case len(b) == 1 && match(b, golyb.Program{
-				golyb.Command{Op: golyb.Move}}):
-				o = append(o, golyb.Command{Op: golyb.Search, Arg: b[0].Arg})
+			case len(b) == 1 && match(b, Program{
+				Command{Op: Move}}):
+				o = append(o, Command{Op: Search, Arg: b[0].Arg})
 			// [->+<]
-			case len(b) == 4 && match(b, golyb.Program{
-				golyb.Command{Op: golyb.Add, Arg: -1},
-				golyb.Command{Op: golyb.Move},
-				golyb.Command{Op: golyb.Add},
-				golyb.Command{Op: golyb.Move, Arg: -b[1].Arg}}):
-				o = append(o, golyb.Command{
-					Op:  golyb.Mult,
+			case len(b) == 4 && match(b, Program{
+				Command{Op: Add, Arg: -1},
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move, Arg: -b[1].Arg}}):
+				o = append(o, Command{
+					Op:  Mult,
 					Dst: b[1].Arg,
 					Arg: b[2].Arg,
 				})
-				o = append(o, golyb.Command{Op: golyb.Clear})
+				o = append(o, Command{Op: Clear})
 			// [>+<-]
-			case len(b) == 4 && match(b, golyb.Program{
-				golyb.Command{Op: golyb.Move},
-				golyb.Command{Op: golyb.Add},
-				golyb.Command{Op: golyb.Move, Arg: -b[0].Arg},
-				golyb.Command{Op: golyb.Add, Arg: -1}}):
-				o = append(o, golyb.Command{
-					Op:  golyb.Mult,
+			case len(b) == 4 && match(b, Program{
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move, Arg: -b[0].Arg},
+				Command{Op: Add, Arg: -1}}):
+				o = append(o, Command{
+					Op:  Mult,
 					Dst: b[0].Arg,
 					Arg: b[1].Arg,
 				})
-				o = append(o, golyb.Command{Op: golyb.Clear})
+				o = append(o, Command{Op: Clear})
 			// [->+>+<<] or [->>+<+<]
-			case len(b) == 6 && match(b, golyb.Program{
-				golyb.Command{Op: golyb.Add, Arg: -1},
-				golyb.Command{Op: golyb.Move},
-				golyb.Command{Op: golyb.Add},
-				golyb.Command{Op: golyb.Move},
-				golyb.Command{Op: golyb.Add},
-				golyb.Command{Op: golyb.Move, Arg: -b[1].Arg - b[3].Arg}}):
-				o = append(o, golyb.Command{
-					Op:  golyb.Mult,
+			case len(b) == 6 && match(b, Program{
+				Command{Op: Add, Arg: -1},
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move, Arg: -b[1].Arg - b[3].Arg}}):
+				o = append(o, Command{
+					Op:  Mult,
 					Dst: b[1].Arg,
 					Arg: b[2].Arg,
 				})
-				o = append(o, golyb.Command{
-					Op:  golyb.Mult,
+				o = append(o, Command{
+					Op:  Mult,
 					Dst: b[1].Arg + b[3].Arg,
 					Arg: b[4].Arg,
 				})
-				o = append(o, golyb.Command{Op: golyb.Clear})
+				o = append(o, Command{Op: Clear})
 			// [>+>+<<-] or [>>+<+<-]
-			case len(b) == 6 && match(b, golyb.Program{
-				golyb.Command{Op: golyb.Move},
-				golyb.Command{Op: golyb.Add},
-				golyb.Command{Op: golyb.Move},
-				golyb.Command{Op: golyb.Add},
-				golyb.Command{Op: golyb.Move, Arg: -b[0].Arg - b[2].Arg},
-				golyb.Command{Op: golyb.Add, Arg: -1}}):
-				o = append(o, golyb.Command{
-					Op:  golyb.Mult,
+			case len(b) == 6 && match(b, Program{
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move},
+				Command{Op: Add},
+				Command{Op: Move, Arg: -b[0].Arg - b[2].Arg},
+				Command{Op: Add, Arg: -1}}):
+				o = append(o, Command{
+					Op:  Mult,
 					Dst: b[0].Arg,
 					Arg: b[1].Arg,
 				})
-				o = append(o, golyb.Command{
-					Op:  golyb.Mult,
+				o = append(o, Command{
+					Op:  Mult,
 					Dst: b[0].Arg + b[2].Arg,
 					Arg: b[3].Arg,
 				})
-				o = append(o, golyb.Command{Op: golyb.Clear})
+				o = append(o, Command{Op: Clear})
 			case len(b) == 0:
 				continue
 			default:
