@@ -1,4 +1,4 @@
-package main
+package golyb
 
 func match(p Program, q Program) bool {
 	if len(p) != len(q) {

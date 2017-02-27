@@ -7,17 +7,8 @@ import (
 	"log"
 	"os"
 	"runtime/pprof"
-)
 
-var (
-	file    = flag.String("file", "", "Source file (required)")
-	in      = flag.String("in", "", "Input file")
-	out     = flag.String("out", "", "Output file or /dev/null")
-	profile = flag.String("profile", "", "Write CPU profile to file")
-	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
-	dump    = flag.Bool("dump", false, "Dump AST and terminate")
-	noop    = flag.Bool("noop", false, "Disable optimization")
-	show    = flag.Int("show", 0, "Dump # tape cells around last position")
+	"github.com/dim13/golyb"
 )
 
 func output(out, in string) (io.ReadWriter, error) {
@@ -48,12 +39,22 @@ func output(out, in string) (io.ReadWriter, error) {
 	}{r, w}, nil
 }
 
-var storage = map[string]func(io.ReadWriter) Storage{
-	"static":  NewStaticTape,
-	"dynamic": NewDynamicTape,
+var storage = map[string]func(io.ReadWriter) golyb.Storage{
+	"static":  golyb.NewStaticTape,
+	"dynamic": golyb.NewDynamicTape,
 }
 
 func main() {
+	var (
+		file    = flag.String("file", "", "Source file (required)")
+		in      = flag.String("in", "", "Input file")
+		out     = flag.String("out", "", "Output file or /dev/null")
+		profile = flag.String("profile", "", "Write CPU profile to file")
+		tape    = flag.String("tape", "static", "Tape type: static or dynamic")
+		dump    = flag.Bool("dump", false, "Dump AST and terminate")
+		noop    = flag.Bool("noop", false, "Disable optimization")
+		show    = flag.Int("show", 0, "Dump # tape cells around last position")
+	)
 	flag.Parse()
 
 	defer func() {
@@ -76,7 +77,7 @@ func main() {
 		return
 	}
 
-	program, err := ParseFile(*file)
+	program, err := golyb.ParseFile(*file)
 	if err != nil {
 		log.Fatal(err)
 	}

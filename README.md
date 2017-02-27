@@ -1,10 +1,11 @@
 [![Build Status](https://travis-ci.org/dim13/golyb.svg?branch=master)](https://travis-ci.org/dim13/golyb)
+[![GoDoc](https://godoc.org/github.com/dim13/golyb?status.svg)](https://godoc.org/github.com/dim13/golyb)
 
 # Go love your brain
 Yet another optimizing BrainF\*ck interpreter in Go
 
 ## Installation
-    go get -u github.com/dim13/golyb
+    go get -u github.com/dim13/golyb/cmd/golyb
 
 ## Usage
 ```

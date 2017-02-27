@@ -1,4 +1,4 @@
-package main
+package golyb
 
 func (p Program) Offset() Program {
 	var o Program

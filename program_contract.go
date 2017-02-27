@@ -1,4 +1,4 @@
-package main
+package golyb
 
 func scan(p Program) (Command, int) {
 	n := 0
