@@ -59,7 +59,7 @@ func main() {
 	}
 
 	if !*noop {
-		program = optimize.Optimize(program)
+		program = optimize.All(program)
 	}
 
 	if *dump {

@@ -25,7 +25,7 @@ func TestOptimize(t *testing.T) {
 				t.Fatal(err)
 			}
 			buf := new(bytes.Buffer)
-			Optimize(p).Execute(static.NewTape(buf))
+			All(p).Execute(static.NewTape(buf))
 			if buf.String() != tc.output {
 				t.Errorf("got %q, want %q", buf.String(), tc.output)
 			}
@@ -44,7 +44,7 @@ func bench(b *testing.B, fname string, optimize bool) {
 		b.Fatal(err)
 	}
 	if optimize {
-		p = Optimize(p)
+		p = All(p)
 	}
 	for i := 0; i < b.N; i++ {
 		p.Execute(static.NewTape(devNull{}))
