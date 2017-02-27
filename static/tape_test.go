@@ -7,7 +7,7 @@ import (
 	"github.com/dim13/golyb"
 )
 
-func TestTape(t *testing.T) {
+func TestStatic(t *testing.T) {
 	testCases := []struct {
 		fname  string
 		output string
