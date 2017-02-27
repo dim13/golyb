@@ -4,9 +4,9 @@ package golyb
 
 import "fmt"
 
-const _Opcode_name = "AddMovePrintScanBNZClearMultSearch"
+const _Opcode_name = "AddMovePrintScanBranchClearMultSearch"
 
-var _Opcode_index = [...]uint8{0, 3, 7, 12, 16, 19, 24, 28, 34}
+var _Opcode_index = [...]uint8{0, 3, 7, 12, 16, 22, 27, 31, 37}
 
 func (i Opcode) String() string {
 	if i < 0 || i >= Opcode(len(_Opcode_index)-1) {
