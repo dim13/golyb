@@ -57,9 +57,7 @@ func main() {
 	}
 
 	if !*noop {
-		program = optimize.Contract(program)
-		program = optimize.Loops(program)
-		program = optimize.Offset(program)
+		program = optimize.Optimize(program)
 	}
 
 	if *dump {

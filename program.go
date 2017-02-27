@@ -31,6 +31,18 @@ type Command struct {
 
 type Program []Command
 
+func ParseFile(fname string) (Program, error) {
+	prog, err := ioutil.ReadFile(fname)
+	if err != nil {
+		return nil, err
+	}
+	return parse(bytes.NewBuffer(prog)), nil
+}
+
+func ParseString(prog string) Program {
+	return parse(bytes.NewBufferString(prog))
+}
+
 func parse(buf *bytes.Buffer) Program {
 	var p Program
 	for {
@@ -61,18 +73,6 @@ func parse(buf *bytes.Buffer) Program {
 		}
 		p = append(p, cmd)
 	}
-}
-
-func ParseFile(fname string) (Program, error) {
-	prog, err := ioutil.ReadFile(fname)
-	if err != nil {
-		return nil, err
-	}
-	return parse(bytes.NewBuffer(prog)), nil
-}
-
-func ParseString(prog string) Program {
-	return parse(bytes.NewBufferString(prog))
 }
 
 type Storage interface {
