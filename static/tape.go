@@ -8,8 +8,10 @@ import (
 	"github.com/dim13/golyb"
 )
 
+type Cell int
+
 type Tape struct {
-	cell []int
+	cell []Cell
 	pos  int
 	out  io.ReadWriter
 }
@@ -21,7 +23,7 @@ const (
 
 func NewTape(out io.ReadWriter) golyb.Storage {
 	return &Tape{
-		cell: make([]int, tapeSize+2*margin),
+		cell: make([]Cell, tapeSize+2*margin),
 		pos:  margin, // left some space on LHS
 		out:  out,
 	}
@@ -32,7 +34,7 @@ func (t *Tape) Move(n int) {
 }
 
 func (t *Tape) Add(n, off int) {
-	t.cell[t.pos+off] += n
+	t.cell[t.pos+off] += Cell(n)
 }
 
 func (t *Tape) Print(off int) {
@@ -56,7 +58,7 @@ func (t *Tape) Clear(off int) {
 }
 
 func (t *Tape) Mult(dst, arg, off int) {
-	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * arg
+	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * Cell(arg)
 }
 
 func (t *Tape) Search(n int) {
