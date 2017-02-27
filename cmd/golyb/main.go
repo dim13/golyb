@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -87,7 +86,7 @@ func main() {
 	}
 
 	if *dump {
-		fmt.Printf("%+v\n", program)
+		program.Dump()
 		return
 	}
 
