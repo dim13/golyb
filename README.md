@@ -24,7 +24,7 @@ Usage of golyb:
     	Write CPU profile to file
   -show
     	Dump tape cells
-  -tape vallue
+  -tape value
     	Tape type: static or dynamic (default static)
 ```
 
