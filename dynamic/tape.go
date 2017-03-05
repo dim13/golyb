@@ -18,21 +18,19 @@ type Tape struct {
 
 const chunkSize = 1024
 
-func New() *Tape {
-	t := new(Tape)
-	t.Init(os.Stdin, os.Stdout)
-	return t
-}
-
-func (t *Tape) Init(r io.Reader, w io.Writer) {
-	if t.r != nil {
-		t.r = r
+func New(r io.Reader, w io.Writer) *Tape {
+	if r == nil {
+		r = os.Stdin
 	}
-	if w != nil {
-		t.w = w
+	if w == nil {
+		w = os.Stdout
 	}
-	t.cell = make([]Cell, chunkSize)
-	t.pos = 0
+	return &Tape{
+		cell: make([]Cell, chunkSize),
+		pos:  0,
+		r:    r,
+		w:    w,
+	}
 }
 
 func (t *Tape) grow(pos int) {

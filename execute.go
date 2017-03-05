@@ -1,9 +1,6 @@
 package golyb
 
-import "io"
-
 type Storage interface {
-	Init(io.Reader, io.Writer)
 	Add(int, int)
 	Move(int)
 	Print(int)

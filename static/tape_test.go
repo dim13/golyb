@@ -24,9 +24,7 @@ func TestStatic(t *testing.T) {
 				t.Fatal(err)
 			}
 			buf := new(bytes.Buffer)
-			tape := New()
-			tape.Init(nil, buf)
-			p.Execute(tape)
+			p.Execute(New(nil, buf))
 			if buf.String() != tc.output {
 				t.Errorf("got %q, want %q", buf.String(), tc.output)
 			}

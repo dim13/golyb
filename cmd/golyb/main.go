@@ -15,28 +15,32 @@ import (
 	"github.com/dim13/golyb/static"
 )
 
-type Storage struct {
-	Name string
-	Tape golyb.Storage
-}
+type Storage string
 
 func (s *Storage) Set(v string) error {
-	for _, st := range storages {
-		if st.Name == v {
-			*s = st
-			return nil
-		}
+	if v == "static" || v == "dynamic" {
+		*s = Storage(v)
+		return nil
 	}
 	return errors.New("unknown tape type")
 }
 
 func (s Storage) String() string {
-	return s.Name
+	return string(s)
 }
 
-var storages = []Storage{
-	{Name: "static", Tape: static.New()},
-	{Name: "dynamic", Tape: dynamic.New()},
+func (s Storage) Usage() string {
+	return "Tape type: static or dynamic"
+}
+
+func (s Storage) New(r io.Reader, w io.Writer) golyb.Storage {
+	switch s {
+	case "static":
+		return static.New(r, w)
+	case "dynamic":
+		return dynamic.New(r, w)
+	}
+	return nil
 }
 
 var (
@@ -47,11 +51,11 @@ var (
 	dump    = flag.Bool("dump", false, "Dump AST and terminate")
 	noop    = flag.Bool("noop", false, "Disable optimization")
 	show    = flag.Bool("show", false, "Dump tape cells")
-	storage = storages[0]
+	storage = Storage("static")
 )
 
 func init() {
-	flag.Var(&storage, "tape", "Tape type: static or dynamic")
+	flag.Var(&storage, "tape", storage.Usage())
 	flag.Parse()
 }
 
@@ -95,10 +99,10 @@ func main() {
 		}
 	}
 
-	storage.Tape.Init(r, w)
-	program.Execute(storage.Tape)
+	tape := storage.New(r, w)
+	program.Execute(tape)
 
 	if *show {
-		fmt.Println(storage.Tape)
+		fmt.Println(tape)
 	}
 }
