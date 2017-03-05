@@ -2,6 +2,7 @@ package optimize
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 
 	"github.com/dim13/golyb"
@@ -25,18 +26,13 @@ func TestOptimize(t *testing.T) {
 				t.Fatal(err)
 			}
 			buf := new(bytes.Buffer)
-			All(p).Execute(static.NewTape(buf))
+			All(p).Execute(static.NewTape(nil, buf))
 			if buf.String() != tc.output {
 				t.Errorf("got %q, want %q", buf.String(), tc.output)
 			}
 		})
 	}
 }
-
-type devNull struct{}
-
-func (devNull) Write(p []byte) (int, error) { return len(p), nil }
-func (devNull) Read(p []byte) (int, error)  { return len(p), nil }
 
 func bench(b *testing.B, fname string, optimize bool) {
 	p, err := golyb.ParseFile(fname)
@@ -47,7 +43,7 @@ func bench(b *testing.B, fname string, optimize bool) {
 		p = All(p)
 	}
 	for i := 0; i < b.N; i++ {
-		p.Execute(static.NewTape(devNull{}))
+		p.Execute(static.NewTape(nil, ioutil.Discard))
 	}
 }
 

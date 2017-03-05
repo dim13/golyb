@@ -3,6 +3,7 @@ package dynamic
 import (
 	"fmt"
 	"io"
+	"os"
 	"unicode"
 
 	"github.com/dim13/golyb"
@@ -13,16 +14,24 @@ type Cell int
 type Tape struct {
 	cell []Cell
 	pos  int
-	out  io.ReadWriter
+	r    io.Reader
+	w    io.Writer
 }
 
 const chunkSize = 1024
 
-func NewTape(out io.ReadWriter) golyb.Storage {
+func NewTape(r io.Reader, w io.Writer) golyb.Storage {
+	if r == nil {
+		r = os.Stdin
+	}
+	if w == nil {
+		w = os.Stdout
+	}
 	return &Tape{
 		cell: make([]Cell, chunkSize),
 		pos:  0,
-		out:  out,
+		r:    r,
+		w:    w,
 	}
 }
 
@@ -51,16 +60,16 @@ func (t *Tape) Print(off int) {
 	x := t.pos + off
 	t.grow(x)
 	if c := t.cell[x]; c > unicode.MaxASCII {
-		fmt.Fprintf(t.out, "%d", c)
+		fmt.Fprintf(t.w, "%d", c)
 	} else {
-		fmt.Fprintf(t.out, "%c", c)
+		fmt.Fprintf(t.w, "%c", c)
 	}
 }
 
 func (t *Tape) Scan(off int) {
 	x := t.pos + off
 	t.grow(x)
-	fmt.Fscanf(t.out, "%c", &t.cell[x])
+	fmt.Fscanf(t.r, "%c", &t.cell[x])
 }
 
 func (t *Tape) IsZero() bool {

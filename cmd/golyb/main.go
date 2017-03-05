@@ -23,7 +23,7 @@ var (
 	dump    = flag.Bool("dump", false, "Dump AST and terminate")
 	noop    = flag.Bool("noop", false, "Disable optimization")
 	show    = flag.Bool("show", false, "Dump tape cells")
-	store   = map[string]func(io.ReadWriter) golyb.Storage{
+	store   = map[string]func(io.Reader, io.Writer) golyb.Storage{
 		"static":  static.NewTape,
 		"dynamic": dynamic.NewTape,
 	}
@@ -47,11 +47,6 @@ func main() {
 		defer pprof.StopCPUProfile()
 	}
 
-	if *file == "" {
-		flag.Usage()
-		return
-	}
-
 	program, err := golyb.ParseFile(*file)
 	if err != nil {
 		log.Fatal(err)
@@ -66,18 +61,29 @@ func main() {
 		return
 	}
 
-	o, err := output(*out, *in)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	storage, ok := store[*tape]
 	if !ok {
 		flag.Usage()
 		return
 	}
 
-	st := storage(o)
+	var r io.Reader
+	if *in != "" {
+		r, err = os.Open(*in)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	var w io.Writer
+	if *out != "" {
+		w, err = os.Create(*out)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	st := storage(r, w)
 	program.Execute(st)
 
 	if *show {

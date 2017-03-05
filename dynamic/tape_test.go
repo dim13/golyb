@@ -24,7 +24,7 @@ func TestDynamic(t *testing.T) {
 				t.Fatal(err)
 			}
 			buf := new(bytes.Buffer)
-			p.Execute(NewTape(buf))
+			p.Execute(NewTape(nil, buf))
 			if buf.String() != tc.output {
 				t.Errorf("got %q, want %q", buf.String(), tc.output)
 			}
