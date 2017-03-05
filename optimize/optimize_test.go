@@ -26,7 +26,9 @@ func TestOptimize(t *testing.T) {
 				t.Fatal(err)
 			}
 			buf := new(bytes.Buffer)
-			All(p).Execute(static.NewTape(nil, buf))
+			tape := static.New()
+			tape.Init(nil, buf)
+			All(p).Execute(tape)
 			if buf.String() != tc.output {
 				t.Errorf("got %q, want %q", buf.String(), tc.output)
 			}
@@ -42,8 +44,10 @@ func bench(b *testing.B, fname string, optimize bool) {
 	if optimize {
 		p = All(p)
 	}
+	tape := static.New()
 	for i := 0; i < b.N; i++ {
-		p.Execute(static.NewTape(nil, ioutil.Discard))
+		tape.Init(nil, ioutil.Discard)
+		p.Execute(tape)
 	}
 }
 

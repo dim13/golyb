@@ -17,7 +17,7 @@ import (
 
 type Storage struct {
 	Name string
-	New  func(io.Reader, io.Writer) golyb.Storage
+	Tape golyb.Storage
 }
 
 func (s *Storage) Set(v string) error {
@@ -35,8 +35,8 @@ func (s Storage) String() string {
 }
 
 var storages = []Storage{
-	{Name: "static", New: static.NewTape},
-	{Name: "dynamic", New: dynamic.NewTape},
+	{Name: "static", Tape: static.New()},
+	{Name: "dynamic", Tape: dynamic.New()},
 }
 
 var (
@@ -47,21 +47,15 @@ var (
 	dump    = flag.Bool("dump", false, "Dump AST and terminate")
 	noop    = flag.Bool("noop", false, "Disable optimization")
 	show    = flag.Bool("show", false, "Dump tape cells")
-	tape    = storages[0]
+	storage = storages[0]
 )
 
 func init() {
-	flag.Var(&tape, "tape", "Tape type: static or dynamic")
+	flag.Var(&storage, "tape", "Tape type: static or dynamic")
 	flag.Parse()
 }
 
 func main() {
-	defer func() {
-		if r := recover(); r != nil {
-			log.Fatal(r)
-		}
-	}()
-
 	if *profile != "" {
 		f, err := os.Create(*profile)
 		if err != nil {
@@ -101,10 +95,10 @@ func main() {
 		}
 	}
 
-	mem := tape.New(r, w)
-	program.Execute(mem)
+	storage.Tape.Init(r, w)
+	program.Execute(storage.Tape)
 
 	if *show {
-		fmt.Println(mem)
+		fmt.Println(storage.Tape)
 	}
 }
