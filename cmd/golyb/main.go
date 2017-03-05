@@ -11,7 +11,6 @@ import (
 	"github.com/dim13/golyb"
 	"github.com/dim13/golyb/dynamic"
 	"github.com/dim13/golyb/optimize"
-	"github.com/dim13/golyb/short"
 	"github.com/dim13/golyb/static"
 )
 
@@ -20,14 +19,13 @@ var (
 	in      = flag.String("in", "", "Input file")
 	out     = flag.String("out", "", "Output file or /dev/null")
 	profile = flag.String("profile", "", "Write CPU profile to file")
-	tape    = flag.String("tape", "static", "Tape type: static, dynamic or short")
+	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
 	dump    = flag.Bool("dump", false, "Dump AST and terminate")
 	noop    = flag.Bool("noop", false, "Disable optimization")
 	show    = flag.Bool("show", false, "Dump tape cells")
 	store   = map[string]func(io.ReadWriter) golyb.Storage{
 		"static":  static.NewTape,
 		"dynamic": dynamic.NewTape,
-		"short":   short.NewTape,
 	}
 )
 

@@ -8,7 +8,7 @@ import (
 	"github.com/dim13/golyb"
 )
 
-type Cell int
+type Cell byte
 
 type Tape struct {
 	cell []Cell

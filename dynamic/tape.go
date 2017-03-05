@@ -8,8 +8,10 @@ import (
 	"github.com/dim13/golyb"
 )
 
+type Cell int
+
 type Tape struct {
-	cell []int
+	cell []Cell
 	pos  int
 	out  io.ReadWriter
 }
@@ -18,7 +20,7 @@ const chunkSize = 1024
 
 func NewTape(out io.ReadWriter) golyb.Storage {
 	return &Tape{
-		cell: make([]int, chunkSize),
+		cell: make([]Cell, chunkSize),
 		pos:  0,
 		out:  out,
 	}
@@ -26,10 +28,10 @@ func NewTape(out io.ReadWriter) golyb.Storage {
 
 func (t *Tape) grow(pos int) {
 	if pos >= len(t.cell) {
-		t.cell = append(t.cell, make([]int, chunkSize)...)
+		t.cell = append(t.cell, make([]Cell, chunkSize)...)
 	}
 	if pos < 0 {
-		t.cell = append(make([]int, chunkSize), t.cell...)
+		t.cell = append(make([]Cell, chunkSize), t.cell...)
 		t.pos += chunkSize
 	}
 }
@@ -42,7 +44,7 @@ func (t *Tape) Move(n int) {
 func (t *Tape) Add(n, off int) {
 	x := t.pos + off
 	t.grow(x)
-	t.cell[x] += n
+	t.cell[x] += Cell(n)
 }
 
 func (t *Tape) Print(off int) {
@@ -76,7 +78,7 @@ func (t *Tape) Mult(dst, arg, off int) {
 	t.grow(x)
 	v := t.cell[x]
 	t.Move(dst)
-	t.Add(v*arg, off)
+	t.Add(int(v)*arg, off)
 	t.Move(-dst)
 }
 

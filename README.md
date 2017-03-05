@@ -25,12 +25,12 @@ Usage of golyb:
   -show
     	Dump tape cells
   -tape string
-    	Tape type: static, dynamic or short (default "static")
+    	Tape type: static or dynamic (default "static")
 ```
 
 ## Tape storage type
-- static: 32k cells including 1k margin on the lower end (used by default)
-- dynamic: allocates in 1k chunks as required on access
+- static: 32k byte cells including 1k margin on the lower end (used by default)
+- dynamic: int cells allocated in 1k chunks as required on access
 
 # Code optimization
 - [x] Contraction
