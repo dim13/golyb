@@ -86,7 +86,7 @@ func main() {
 	}
 
 	var r io.Reader
-	if *in != "" {
+	if *in != "" && *in != "-" {
 		r, err = os.Open(*in)
 		if err != nil {
 			log.Fatal(err)
@@ -94,7 +94,7 @@ func main() {
 	}
 
 	var w io.Writer
-	if *out != "" {
+	if *out != "" && *out != "-" {
 		w, err = os.Create(*out)
 		if err != nil {
 			log.Fatal(err)
