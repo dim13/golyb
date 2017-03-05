@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -14,24 +15,47 @@ import (
 	"github.com/dim13/golyb/static"
 )
 
+type Storage struct {
+	Name string
+	New  func(io.Reader, io.Writer) golyb.Storage
+}
+
+func (s *Storage) Set(v string) error {
+	for _, st := range storages {
+		if st.Name == v {
+			*s = st
+			return nil
+		}
+	}
+	return errors.New("unknown tape type")
+}
+
+func (s Storage) String() string {
+	return s.Name
+}
+
+var storages = []Storage{
+	{Name: "static", New: static.NewTape},
+	{Name: "dynamic", New: dynamic.NewTape},
+}
+
 var (
 	file    = flag.String("file", "", "Source file (required)")
 	in      = flag.String("in", "", "Input file")
 	out     = flag.String("out", "", "Output file or /dev/null")
 	profile = flag.String("profile", "", "Write CPU profile to file")
-	tape    = flag.String("tape", "static", "Tape type: static or dynamic")
 	dump    = flag.Bool("dump", false, "Dump AST and terminate")
 	noop    = flag.Bool("noop", false, "Disable optimization")
 	show    = flag.Bool("show", false, "Dump tape cells")
-	store   = map[string]func(io.Reader, io.Writer) golyb.Storage{
-		"static":  static.NewTape,
-		"dynamic": dynamic.NewTape,
-	}
+	tape    = storages[0]
 )
 
-func main() {
+func init() {
+	flag.Var(&tape, "tape", "Tape type: static or dynamic")
 	flag.Parse()
+}
 
+func main() {
 	defer func() {
 		if r := recover(); r != nil {
 			log.Fatal(r)
@@ -61,12 +85,6 @@ func main() {
 		return
 	}
 
-	storage, ok := store[*tape]
-	if !ok {
-		flag.Usage()
-		return
-	}
-
 	var r io.Reader
 	if *in != "" {
 		r, err = os.Open(*in)
@@ -83,10 +101,10 @@ func main() {
 		}
 	}
 
-	st := storage(r, w)
-	program.Execute(st)
+	mem := tape.New(r, w)
+	program.Execute(mem)
 
 	if *show {
-		fmt.Println(st)
+		fmt.Println(mem)
 	}
 }
