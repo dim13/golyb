@@ -5,7 +5,7 @@
 Yet another optimizing BrainF\*ck interpreter in Go
 
 ## Installation
-    go get -u github.com/dim13/golyb/cmd/golyb
+    go get github.com/dim13/golyb/cmd/golyb
 
 ## Usage
 ```
@@ -24,8 +24,8 @@ Usage of golyb:
     	Write CPU profile to file
   -show
     	Dump tape cells
-  -tape string
-    	Tape type: static or dynamic (default "static")
+  -tape vallue
+    	Tape type: static or dynamic (default static)
 ```
 
 ## Tape storage type
