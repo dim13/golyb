@@ -18,20 +18,18 @@ import (
 
 type Storage string
 
-func (s *Storage) Set(v string) error {
-	if v == "static" || v == "dynamic" {
-		*s = Storage(v)
-		return nil
-	}
-	return errors.New("unknown tape type")
-}
-
 func (s Storage) String() string {
 	return string(s)
 }
 
-func (s Storage) Usage() string {
-	return "Tape type: static or dynamic"
+func (s *Storage) Set(v string) error {
+	switch v {
+	case "static", "dynamic":
+		*s = Storage(v)
+	default:
+		return errors.New("unknown tape type")
+	}
+	return nil
 }
 
 func (s Storage) New(r io.Reader, w io.Writer) golyb.Storage {
@@ -42,6 +40,10 @@ func (s Storage) New(r io.Reader, w io.Writer) golyb.Storage {
 		return dynamic.New(r, w)
 	}
 	return nil
+}
+
+func (s Storage) Usage() string {
+	return "Tape type: static or dynamic"
 }
 
 var (
