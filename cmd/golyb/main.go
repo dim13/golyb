@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"runtime/debug"
 	"runtime/pprof"
 
 	"github.com/dim13/golyb"
@@ -100,9 +101,17 @@ func main() {
 	}
 
 	tape := storage.New(r, w)
+	defer stacktrace()
 	program.Execute(tape)
 
 	if *show {
 		fmt.Println(tape)
+	}
+}
+
+func stacktrace() {
+	if r := recover(); r != nil {
+		debug.PrintStack()
+		log.Fatal(r)
 	}
 }
