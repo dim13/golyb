@@ -2,8 +2,7 @@ package optimize
 
 import . "github.com/dim13/golyb"
 
-func Offset(p Program) Program {
-	var o Program
+func Offset(p Program) (out Program) {
 	// [>>>?<<<] for Add, Print, Scan, Clear, Mult
 	// not for Move, BNZ, Search
 	for i := 0; i < len(p); i++ {
@@ -12,7 +11,7 @@ func Offset(p Program) Program {
 			b[0].Op == Move &&
 			(b[1].Op == Add || b[1].Op == Print || b[1].Op == Scan || b[1].Op == Clear) &&
 			b[2].Op == Move:
-			o = append(o, Command{
+			out = append(out, Command{
 				Op:  b[1].Op,
 				Arg: b[1].Arg,
 				Off: b[0].Arg,
@@ -33,13 +32,13 @@ func Offset(p Program) Program {
 			b[1].Op == Mult &&
 			b[2].Op == Clear &&
 			b[3].Op == Move:
-			o = append(o, Command{
+			out = append(out, Command{
 				Op:  b[1].Op,
 				Dst: b[1].Dst,
 				Arg: b[1].Arg,
 				Off: b[0].Arg,
 			})
-			o = append(o, Command{
+			out = append(out, Command{
 				Op:  b[2].Op,
 				Arg: b[2].Arg,
 				Off: b[0].Arg,
@@ -57,8 +56,8 @@ func Offset(p Program) Program {
 			}
 		default:
 			p[i].Branch = Offset(p[i].Branch)
-			o = append(o, p[i])
+			out = append(out, p[i])
 		}
 	}
-	return o
+	return out
 }

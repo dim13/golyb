@@ -17,8 +17,7 @@ func match(p Program, q Program) bool {
 	return true
 }
 
-func Loops(p Program) Program {
-	var o Program
+func Loops(p Program) (out Program) {
 	for _, cmd := range p {
 		switch cmd.Op {
 		case Loop:
@@ -26,35 +25,35 @@ func Loops(p Program) Program {
 			// [-] or [+]
 			case len(b) == 1 && match(b, Program{
 				Command{Op: Add}}):
-				o = append(o, Command{Op: Clear})
+				out = append(out, Command{Op: Clear})
 			// [>] or [<]
 			case len(b) == 1 && match(b, Program{
 				Command{Op: Move}}):
-				o = append(o, Command{Op: Search, Arg: b[0].Arg})
+				out = append(out, Command{Op: Search, Arg: b[0].Arg})
 			// [->+<]
 			case len(b) == 4 && match(b, Program{
 				Command{Op: Add, Arg: -1},
 				Command{Op: Move},
 				Command{Op: Add},
 				Command{Op: Move, Arg: -b[1].Arg}}):
-				o = append(o, Command{
+				out = append(out, Command{
 					Op:  Mult,
 					Dst: b[1].Arg,
 					Arg: b[2].Arg,
 				})
-				o = append(o, Command{Op: Clear})
+				out = append(out, Command{Op: Clear})
 			// [>+<-]
 			case len(b) == 4 && match(b, Program{
 				Command{Op: Move},
 				Command{Op: Add},
 				Command{Op: Move, Arg: -b[0].Arg},
 				Command{Op: Add, Arg: -1}}):
-				o = append(o, Command{
+				out = append(out, Command{
 					Op:  Mult,
 					Dst: b[0].Arg,
 					Arg: b[1].Arg,
 				})
-				o = append(o, Command{Op: Clear})
+				out = append(out, Command{Op: Clear})
 			// [->+>+<<] or [->>+<+<]
 			case len(b) == 6 && match(b, Program{
 				Command{Op: Add, Arg: -1},
@@ -63,17 +62,17 @@ func Loops(p Program) Program {
 				Command{Op: Move},
 				Command{Op: Add},
 				Command{Op: Move, Arg: -b[1].Arg - b[3].Arg}}):
-				o = append(o, Command{
+				out = append(out, Command{
 					Op:  Mult,
 					Dst: b[1].Arg,
 					Arg: b[2].Arg,
 				})
-				o = append(o, Command{
+				out = append(out, Command{
 					Op:  Mult,
 					Dst: b[1].Arg + b[3].Arg,
 					Arg: b[4].Arg,
 				})
-				o = append(o, Command{Op: Clear})
+				out = append(out, Command{Op: Clear})
 			// [>+>+<<-] or [>>+<+<-]
 			case len(b) == 6 && match(b, Program{
 				Command{Op: Move},
@@ -82,27 +81,27 @@ func Loops(p Program) Program {
 				Command{Op: Add},
 				Command{Op: Move, Arg: -b[0].Arg - b[2].Arg},
 				Command{Op: Add, Arg: -1}}):
-				o = append(o, Command{
+				out = append(out, Command{
 					Op:  Mult,
 					Dst: b[0].Arg,
 					Arg: b[1].Arg,
 				})
-				o = append(o, Command{
+				out = append(out, Command{
 					Op:  Mult,
 					Dst: b[0].Arg + b[2].Arg,
 					Arg: b[3].Arg,
 				})
-				o = append(o, Command{Op: Clear})
+				out = append(out, Command{Op: Clear})
 			case len(b) == 0:
 				continue
 			default:
 				cmd.Branch = Loops(cmd.Branch)
-				o = append(o, cmd)
+				out = append(out, cmd)
 			}
 		default:
 			// passthrough
-			o = append(o, cmd)
+			out = append(out, cmd)
 		}
 	}
-	return o
+	return out
 }

@@ -16,20 +16,19 @@ func scan(p Program) (Command, int) {
 	return c, n
 }
 
-func Contract(p Program) Program {
-	var o Program
+func Contract(p Program) (out Program) {
 	for i := 0; i < len(p); i++ {
 		switch cmd := p[i]; cmd.Op {
 		case Add, Move:
 			cmd, n := scan(p[i:])
 			if cmd.Arg != 0 {
-				o = append(o, cmd)
+				out = append(out, cmd)
 			}
 			i += n
 		default:
 			cmd.Branch = Contract(cmd.Branch)
-			o = append(o, cmd)
+			out = append(out, cmd)
 		}
 	}
-	return o
+	return out
 }
