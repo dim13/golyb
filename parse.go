@@ -47,8 +47,7 @@ func ParseString(prog string) Program {
 	return parse(strings.NewReader(prog))
 }
 
-func parse(r io.RuneReader) Program {
-	var p Program
+func parse(r io.RuneReader) (p Program) {
 	for {
 		v, _, err := r.ReadRune()
 		if err == io.EOF {
