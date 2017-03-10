@@ -1,6 +1,6 @@
 package golyb
 
-type Storage interface {
+type Tape interface {
 	Add(int, int)
 	Move(int)
 	Print(int)
@@ -11,27 +11,27 @@ type Storage interface {
 	Search(int)
 }
 
-func (p Program) Execute(s Storage) {
+func (p Program) Execute(t Tape) {
 	for _, cmd := range p {
 		switch cmd.Op {
 		case Add:
-			s.Add(cmd.Arg, cmd.Off)
+			t.Add(cmd.Arg, cmd.Off)
 		case Move:
-			s.Move(cmd.Arg)
+			t.Move(cmd.Arg)
 		case Print:
-			s.Print(cmd.Off)
+			t.Print(cmd.Off)
 		case Scan:
-			s.Scan(cmd.Off)
+			t.Scan(cmd.Off)
 		case Loop:
-			for !s.IsZero() {
-				cmd.Branch.Execute(s)
+			for !t.IsZero() {
+				cmd.Branch.Execute(t)
 			}
 		case Clear:
-			s.Clear(cmd.Off)
+			t.Clear(cmd.Off)
 		case Mult:
-			s.Mult(cmd.Dst, cmd.Arg, cmd.Off)
+			t.Mult(cmd.Dst, cmd.Arg, cmd.Off)
 		case Search:
-			s.Search(cmd.Arg)
+			t.Search(cmd.Arg)
 		default:
 			panic("unknown opcode")
 		}

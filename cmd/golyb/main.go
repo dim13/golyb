@@ -16,24 +16,24 @@ import (
 	"github.com/dim13/golyb/static"
 )
 
-type Storage string
+type Tape string
 
-func (s Storage) String() string {
-	return string(s)
+func (t Tape) String() string {
+	return string(t)
 }
 
-func (s *Storage) Set(v string) error {
+func (t *Tape) Set(v string) error {
 	switch v {
 	case "static", "dynamic":
-		*s = Storage(v)
+		*t = Tape(v)
 	default:
 		return errors.New("unknown tape type")
 	}
 	return nil
 }
 
-func (s Storage) New(r io.Reader, w io.Writer) golyb.Storage {
-	switch s {
+func (t Tape) New(r io.Reader, w io.Writer) golyb.Tape {
+	switch t {
 	case "static":
 		return static.New(r, w)
 	case "dynamic":
@@ -42,7 +42,7 @@ func (s Storage) New(r io.Reader, w io.Writer) golyb.Storage {
 	return nil
 }
 
-func (s Storage) Usage() string {
+func (_ Tape) Usage() string {
 	return "Tape type: static or dynamic"
 }
 
@@ -54,11 +54,11 @@ var (
 	dump    = flag.Bool("dump", false, "Dump AST and terminate")
 	noop    = flag.Bool("noop", false, "Disable optimization")
 	show    = flag.Bool("show", false, "Dump tape cells")
-	storage = Storage("static")
+	tape    = Tape("static")
 )
 
 func init() {
-	flag.Var(&storage, "tape", storage.Usage())
+	flag.Var(&tape, "tape", tape.Usage())
 	flag.Parse()
 }
 
@@ -102,12 +102,12 @@ func main() {
 		}
 	}
 
-	tape := storage.New(r, w)
+	mem := tape.New(r, w)
 	defer stacktrace()
-	program.Execute(tape)
+	program.Execute(mem)
 
 	if *show {
-		fmt.Println(tape)
+		fmt.Println(mem)
 	}
 }
 

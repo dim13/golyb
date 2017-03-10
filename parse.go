@@ -3,7 +3,8 @@ package golyb
 import (
 	"bytes"
 	"io"
-	"io/ioutil"
+	"os"
+	"strings"
 )
 
 //go:generate stringer -type=Opcode
@@ -32,25 +33,28 @@ type Command struct {
 type Program []Command
 
 func ParseFile(fname string) (Program, error) {
-	prog, err := ioutil.ReadFile(fname)
+	fd, err := os.Open(fname)
 	if err != nil {
 		return nil, err
 	}
-	return parse(bytes.NewBuffer(prog)), nil
+	defer fd.Close()
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(fd)
+	return parse(buf), nil
 }
 
 func ParseString(prog string) Program {
-	return parse(bytes.NewBufferString(prog))
+	return parse(strings.NewReader(prog))
 }
 
-func parse(buf *bytes.Buffer) Program {
+func parse(r io.RuneReader) Program {
 	var p Program
 	for {
-		r, _, err := buf.ReadRune()
+		v, _, err := r.ReadRune()
 		if err == io.EOF {
 			return p
 		}
-		switch r {
+		switch v {
 		case '+':
 			p = append(p, Command{Op: Add, Arg: 1})
 		case '-':
@@ -64,7 +68,7 @@ func parse(buf *bytes.Buffer) Program {
 		case ',':
 			p = append(p, Command{Op: Scan})
 		case '[':
-			p = append(p, Command{Op: Loop, Branch: parse(buf)})
+			p = append(p, Command{Op: Loop, Branch: parse(r)})
 		case ']':
 			return p
 		}
