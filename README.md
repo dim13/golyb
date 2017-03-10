@@ -50,6 +50,7 @@ Reference: http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html
 | madelbrot.b |   1 min 25.1 sec |          15.4 sec |       5.5x |
 | long.b      |   1 min  9.5 sec |           7.6 sec |       9.0x |
 | hanoi.b     |         58.3 sec |           1.3 sec |      44.8x |
+| bench.b     |         10.3 sec |           1.9 sec |       5.5x |
 
 ## CPU profiles
 
