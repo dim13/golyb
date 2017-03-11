@@ -7,10 +7,8 @@ import (
 	"unicode"
 )
 
-type Cell byte
-
 type Tape struct {
-	cell []Cell
+	cell []int
 	pos  int
 	r    io.Reader
 	w    io.Writer
@@ -29,7 +27,7 @@ func New(r io.Reader, w io.Writer) *Tape {
 		w = os.Stdout
 	}
 	return &Tape{
-		cell: make([]Cell, tapeSize+2*margin),
+		cell: make([]int, tapeSize+2*margin),
 		pos:  margin,
 		r:    r,
 		w:    w,
@@ -41,7 +39,7 @@ func (t *Tape) Move(n int) {
 }
 
 func (t *Tape) Add(n, off int) {
-	t.cell[t.pos+off] += Cell(n)
+	t.cell[t.pos+off] += n
 }
 
 func (t *Tape) Print(off int) {
@@ -65,7 +63,7 @@ func (t *Tape) Clear(off int) {
 }
 
 func (t *Tape) Mult(dst, arg, off int) {
-	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * Cell(arg)
+	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * arg
 }
 
 func (t *Tape) Search(n int) {
