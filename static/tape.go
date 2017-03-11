@@ -34,12 +34,12 @@ func New(r io.Reader, w io.Writer) *Tape {
 	}
 }
 
-func (t *Tape) Move(n int) {
-	t.pos += n
+func (t *Tape) Move(off int) {
+	t.pos += off
 }
 
-func (t *Tape) Add(n, off int) {
-	t.cell[t.pos+off] += n
+func (t *Tape) Add(arg, off int) {
+	t.cell[t.pos+off] += arg
 }
 
 func (t *Tape) Print(off int) {
@@ -66,9 +66,9 @@ func (t *Tape) Mult(arg, off, dst int) {
 	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * arg
 }
 
-func (t *Tape) Search(n int) {
+func (t *Tape) Search(off int) {
 	for t.cell[t.pos] != 0 {
-		t.pos += n
+		t.pos += off
 	}
 }
 

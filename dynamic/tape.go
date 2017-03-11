@@ -41,15 +41,15 @@ func (t *Tape) grow(pos int) {
 	}
 }
 
-func (t *Tape) Move(n int) {
-	t.pos += n
+func (t *Tape) Move(off int) {
+	t.pos += off
 	t.grow(t.pos)
 }
 
-func (t *Tape) Add(n, off int) {
+func (t *Tape) Add(arg, off int) {
 	x := t.pos + off
 	t.grow(x)
-	t.cell[x] += n
+	t.cell[x] += arg
 }
 
 func (t *Tape) Print(off int) {
@@ -87,9 +87,9 @@ func (t *Tape) Mult(arg, off, dst int) {
 	t.Move(-dst)
 }
 
-func (t *Tape) Search(n int) {
+func (t *Tape) Search(off int) {
 	for !t.IsZero() {
-		t.Move(n)
+		t.Move(off)
 	}
 }
 
