@@ -78,7 +78,7 @@ func (t *Tape) Clear(off int) {
 	t.cell[x] = 0
 }
 
-func (t *Tape) Mult(dst, arg, off int) {
+func (t *Tape) Mult(arg, off, dst int) {
 	x := t.pos + off
 	t.grow(x)
 	v := t.cell[x]

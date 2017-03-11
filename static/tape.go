@@ -62,7 +62,7 @@ func (t *Tape) Clear(off int) {
 	t.cell[t.pos+off] = 0
 }
 
-func (t *Tape) Mult(dst, arg, off int) {
+func (t *Tape) Mult(arg, off, dst int) {
 	t.cell[t.pos+dst+off] += t.cell[t.pos+off] * arg
 }
 

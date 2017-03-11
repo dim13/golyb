@@ -29,7 +29,7 @@ func (p Program) Execute(t Tape) {
 		case Clear:
 			t.Clear(p[i].Off)
 		case Mult:
-			t.Mult(p[i].Dst, p[i].Arg, p[i].Off)
+			t.Mult(p[i].Arg, p[i].Off, p[i].Dst)
 		case Search:
 			t.Search(p[i].Arg)
 		default:
