@@ -1,14 +1,14 @@
 package golyb
 
 type Tape interface {
-	Add(int, int)
-	Move(int)
-	Print(int)
-	Scan(int)
+	Add(arg int, off int)
+	Move(off int)
+	Print(off int)
+	Scan(off int)
 	IsZero() bool
-	Clear(int)
-	Mult(int, int, int)
-	Search(int)
+	Clear(off int)
+	Mult(arg int, off int, dst int)
+	Search(off int)
 }
 
 func (p Program) Execute(t Tape) {
