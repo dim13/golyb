@@ -8,6 +8,7 @@ func scan(p Program) (Command, int) {
 	for _, cmd := range p[1:] {
 		if cmd.Op == c.Op {
 			c.Arg += cmd.Arg
+			c.Off += cmd.Off
 			n++
 		} else {
 			break
@@ -21,7 +22,7 @@ func Contract(p Program) (out Program) {
 		switch cmd := p[i]; cmd.Op {
 		case Add, Move:
 			cmd, n := scan(p[i:])
-			if cmd.Arg != 0 {
+			if cmd.Arg != 0 || cmd.Off != 0 {
 				out = append(out, cmd)
 			}
 			i += n

@@ -14,13 +14,13 @@ func Offset(p Program) (out Program) {
 			out = append(out, Command{
 				Op:  b[1].Op,
 				Arg: b[1].Arg,
-				Off: b[0].Arg,
+				Off: b[1].Off + b[0].Off,
 			})
 			// push back combined move
-			m := b[0].Arg + b[2].Arg
+			m := b[0].Off + b[2].Off
 			p[i+2] = Command{
 				Op:  Move,
-				Arg: m,
+				Off: m,
 			}
 			if m == 0 {
 				i += 2
@@ -36,18 +36,18 @@ func Offset(p Program) (out Program) {
 				Op:  b[1].Op,
 				Dst: b[1].Dst,
 				Arg: b[1].Arg,
-				Off: b[0].Arg,
+				Off: b[1].Off + b[0].Off,
 			})
 			out = append(out, Command{
 				Op:  b[2].Op,
 				Arg: b[2].Arg,
-				Off: b[0].Arg,
+				Off: b[2].Off + b[0].Off,
 			})
 			// push back combined move
-			m := b[0].Arg + b[3].Arg
+			m := b[0].Off + b[3].Off
 			p[i+3] = Command{
 				Op:  Move,
-				Arg: b[0].Arg + b[3].Arg,
+				Off: m,
 			}
 			if m == 0 {
 				i += 3

@@ -12,26 +12,28 @@ type Tape interface {
 }
 
 func (p Program) Execute(t Tape) {
-	for i := 0; i < len(p); i++ {
-		switch p[i].Op {
+	var cmd Command
+	for i := range p {
+		cmd = p[i]
+		switch cmd.Op {
 		case Add:
-			t.Add(p[i].Arg, p[i].Off)
+			t.Add(cmd.Arg, cmd.Off)
 		case Move:
-			t.Move(p[i].Arg)
+			t.Move(cmd.Off)
 		case Print:
-			t.Print(p[i].Off)
+			t.Print(cmd.Off)
 		case Scan:
-			t.Scan(p[i].Off)
+			t.Scan(cmd.Off)
 		case Loop:
 			for !t.IsZero() {
-				p[i].Branch.Execute(t)
+				cmd.Branch.Execute(t)
 			}
 		case Clear:
-			t.Clear(p[i].Off)
+			t.Clear(cmd.Off)
 		case Mult:
-			t.Mult(p[i].Arg, p[i].Off, p[i].Dst)
+			t.Mult(cmd.Arg, cmd.Off, cmd.Dst)
 		case Search:
-			t.Search(p[i].Arg)
+			t.Search(cmd.Off)
 		default:
 			panic("unknown opcode")
 		}

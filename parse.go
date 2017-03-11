@@ -59,9 +59,9 @@ func parse(r io.RuneReader) (p Program) {
 		case '-':
 			p = append(p, Command{Op: Add, Arg: -1})
 		case '>':
-			p = append(p, Command{Op: Move, Arg: 1})
+			p = append(p, Command{Op: Move, Off: 1})
 		case '<':
-			p = append(p, Command{Op: Move, Arg: -1})
+			p = append(p, Command{Op: Move, Off: -1})
 		case '.':
 			p = append(p, Command{Op: Print})
 		case ',':
