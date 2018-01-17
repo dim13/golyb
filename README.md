@@ -58,18 +58,18 @@ Executed on 1.3 GHz Intel Core i5
 
 ### mandelbrot.b
 #### optimized
-![mandelbrot profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/mandelbrot.gif)
+![mandelbrot profile](profiles/mandelbrot.gif)
 #### not optimized
-![mandelbrot profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/mandelbrot_noop.gif)
+![mandelbrot profile](profiles/mandelbrot_noop.gif)
 
 ### long.b
 #### optimized
-![long profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/long.gif)
+![long profile](profiles/long.gif)
 #### not optimized
-![long profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/long_noop.gif)
+![long profile](profiles/long_noop.gif)
 
 ### hanoi.b
 #### optimized
-![hanoi profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/hanoi.gif)
+![hanoi profile](profiles/hanoi.gif)
 #### not optimized
-![hanoi profile](https://raw.githubusercontent.com/dim13/golyb/master/profiles/hanoi_noop.gif)
+![hanoi profile](profiles/hanoi_noop.gif)
