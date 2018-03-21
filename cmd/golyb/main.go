@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -11,40 +10,8 @@ import (
 	"runtime/pprof"
 
 	"github.com/dim13/golyb"
-	"github.com/dim13/golyb/dynamic"
 	"github.com/dim13/golyb/optimize"
-	"github.com/dim13/golyb/static"
 )
-
-type Tape string
-
-func (t Tape) String() string {
-	return string(t)
-}
-
-func (t *Tape) Set(v string) error {
-	switch v {
-	case "static", "dynamic":
-		*t = Tape(v)
-	default:
-		return errors.New("unknown tape type")
-	}
-	return nil
-}
-
-func (t Tape) New(r io.Reader, w io.Writer) golyb.Tape {
-	switch t {
-	case "static":
-		return static.New(r, w)
-	case "dynamic":
-		return dynamic.New(r, w)
-	}
-	return nil
-}
-
-func (_ Tape) Usage() string {
-	return "Tape type: static or dynamic"
-}
 
 var (
 	file    = flag.String("file", "", "Source file (required)")
@@ -57,12 +24,10 @@ var (
 	tape    = Tape("static")
 )
 
-func init() {
+func main() {
 	flag.Var(&tape, "tape", tape.Usage())
 	flag.Parse()
-}
 
-func main() {
 	if *profile != "" {
 		f, err := os.Create(*profile)
 		if err != nil {
