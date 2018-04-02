@@ -6,6 +6,7 @@ import (
 
 	"github.com/dim13/golyb"
 	"github.com/dim13/golyb/dynamic"
+	"github.com/dim13/golyb/sparse"
 	"github.com/dim13/golyb/static"
 )
 
@@ -17,7 +18,7 @@ func (t Tape) String() string {
 
 func (t *Tape) Set(v string) error {
 	switch v {
-	case "static", "dynamic":
+	case "static", "dynamic", "sparse":
 		*t = Tape(v)
 	default:
 		return errors.New("unknown tape type")
@@ -31,10 +32,12 @@ func (t Tape) New(r io.Reader, w io.Writer) golyb.Tape {
 		return static.New(r, w)
 	case "dynamic":
 		return dynamic.New(r, w)
+	case "sparse":
+		return sparse.New(r, w)
 	}
 	return nil
 }
 
 func (_ Tape) Usage() string {
-	return "Tape type: static or dynamic"
+	return "Tape type: static, dynamic of sparse"
 }
