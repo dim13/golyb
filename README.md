@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/dim13/golyb.svg?branch=master)](https://travis-ci.org/dim13/golyb)
 [![GoDoc](https://godoc.org/github.com/dim13/golyb?status.svg)](https://godoc.org/github.com/dim13/golyb)
+[![Build](https://github.com/dim13/golyb/workflows/build/badge.svg)](https://github.com/dim13/golyb/actions)
 
 # Go love your brain
 Yet another optimizing BrainF\*ck interpreter in Go
