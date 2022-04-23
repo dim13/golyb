@@ -1,4 +1,4 @@
-package static
+package dynamic
 
 import (
 	"bytes"
@@ -7,14 +7,14 @@ import (
 	"github.com/dim13/golyb"
 )
 
-func TestStatic(t *testing.T) {
+func TestDynamic(t *testing.T) {
 	testCases := []struct {
 		fname  string
 		output string
 	}{
-		{"../testdata/helloworld.b", "Hello World!\n"},
-		{"../testdata/202.b", "202"},
-		{"../testdata/faraway.b", "#\n"},
+		{"../../testdata/helloworld.b", "Hello World!\n"},
+		{"../../testdata/202.b", "202"},
+		{"../../testdata/faraway.b", "#\n"},
 	}
 
 	for _, tc := range testCases {

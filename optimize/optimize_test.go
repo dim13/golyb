@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/dim13/golyb"
-	"github.com/dim13/golyb/static"
+	"github.com/dim13/golyb/tape/static"
 )
 
 func TestOptimize(t *testing.T) {

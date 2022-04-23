@@ -4,9 +4,9 @@ import (
 	"errors"
 
 	"github.com/dim13/golyb"
-	"github.com/dim13/golyb/dynamic"
-	"github.com/dim13/golyb/sparse"
-	"github.com/dim13/golyb/static"
+	"github.com/dim13/golyb/tape/dynamic"
+	"github.com/dim13/golyb/tape/sparse"
+	"github.com/dim13/golyb/tape/static"
 )
 
 type Tape string
