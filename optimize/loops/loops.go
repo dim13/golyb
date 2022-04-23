@@ -1,4 +1,4 @@
-package optimize
+package loops
 
 import . "github.com/dim13/golyb"
 
@@ -20,7 +20,7 @@ func match(p Program, q Program) bool {
 	return true
 }
 
-func Loops(p Program) (out Program) {
+func Optimize(p Program) (out Program) {
 	for _, cmd := range p {
 		if cmd.Op != Loop {
 			// passthrough
@@ -99,7 +99,7 @@ func Loops(p Program) (out Program) {
 		case len(b) == 0:
 			continue
 		default:
-			cmd.Branch = Loops(cmd.Branch)
+			cmd.Branch = Optimize(cmd.Branch)
 			out = append(out, cmd)
 		}
 	}

@@ -1,11 +1,16 @@
 package optimize
 
-import . "github.com/dim13/golyb"
+import (
+	. "github.com/dim13/golyb"
+	"github.com/dim13/golyb/optimize/contract"
+	"github.com/dim13/golyb/optimize/loops"
+	"github.com/dim13/golyb/optimize/offset"
+)
 
 var defaultOpts = []func(Program) Program{
-	Contract,
-	Loops,
-	Offset,
+	contract.Optimize,
+	loops.Optimize,
+	offset.Optimize,
 }
 
 func All(p Program, opts ...func(Program) Program) Program {

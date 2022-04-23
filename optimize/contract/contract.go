@@ -1,4 +1,4 @@
-package optimize
+package contract
 
 import . "github.com/dim13/golyb"
 
@@ -17,7 +17,7 @@ func scan(p Program) (Command, int) {
 	return c, n
 }
 
-func Contract(p Program) (out Program) {
+func Optimize(p Program) (out Program) {
 	for i := 0; i < len(p); i++ {
 		switch cmd := p[i]; cmd.Op {
 		case Add, Move:
@@ -27,7 +27,7 @@ func Contract(p Program) (out Program) {
 			}
 			i += n
 		default:
-			cmd.Branch = Contract(cmd.Branch)
+			cmd.Branch = Optimize(cmd.Branch)
 			out = append(out, cmd)
 		}
 	}

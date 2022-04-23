@@ -1,8 +1,8 @@
-package optimize
+package offset
 
 import . "github.com/dim13/golyb"
 
-func Offset(p Program) (out Program) {
+func Optimize(p Program) (out Program) {
 	// [>>>?<<<] for Add, Print, Scan, Clear, Mult
 	// not for Move, BNZ, Search
 	for i := 0; i < len(p); i++ {
@@ -55,7 +55,7 @@ func Offset(p Program) (out Program) {
 				i += 2
 			}
 		default:
-			p[i].Branch = Offset(p[i].Branch)
+			p[i].Branch = Optimize(p[i].Branch)
 			out = append(out, p[i])
 		}
 	}
