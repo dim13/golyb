@@ -12,7 +12,7 @@ type Tape interface {
 	Write(off, v int)
 }
 
-func (p Program) Execute(w io.Writer, r io.Reader, t Tape) {
+func Execute(w io.Writer, r io.Reader, p Program, t Tape) {
 	for i := range p {
 		switch p[i].Op {
 		case Add:
@@ -32,7 +32,7 @@ func (p Program) Execute(w io.Writer, r io.Reader, t Tape) {
 			t.Write(p[i].Off, x)
 		case Loop:
 			for t.Read(0) != 0 {
-				p[i].Branch.Execute(w, r, t)
+				Execute(w, r, p[i].Branch, t)
 			}
 		case Clear:
 			t.Write(p[i].Off, 0)

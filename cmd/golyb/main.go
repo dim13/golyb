@@ -75,7 +75,7 @@ func main() {
 
 	mem := tape.New()
 	defer stacktrace()
-	program.Execute(w, r, mem)
+	golyb.Execute(w, r, program, mem)
 
 	if *show {
 		fmt.Println(mem)

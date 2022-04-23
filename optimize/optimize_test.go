@@ -26,7 +26,7 @@ func TestOptimize(t *testing.T) {
 				t.Fatal(err)
 			}
 			buf := new(bytes.Buffer)
-			All(p).Execute(buf, nil, static.New())
+			golyb.Execute(buf, nil, All(p), static.New())
 			if buf.String() != tc.output {
 				t.Errorf("got %q, want %q", buf.String(), tc.output)
 			}
@@ -43,7 +43,7 @@ func bench(b *testing.B, fname string, optimize bool) {
 		p = All(p)
 	}
 	for i := 0; i < b.N; i++ {
-		p.Execute(ioutil.Discard, nil, static.New())
+		golyb.Execute(ioutil.Discard, nil, p, static.New())
 	}
 }
 

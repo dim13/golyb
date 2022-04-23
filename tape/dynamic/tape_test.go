@@ -24,7 +24,7 @@ func TestDynamic(t *testing.T) {
 				t.Fatal(err)
 			}
 			buf := new(bytes.Buffer)
-			p.Execute(buf, nil, New())
+			golyb.Execute(buf, nil, p, New())
 			if buf.String() != tc.output {
 				t.Errorf("got %q, want %q", buf.String(), tc.output)
 			}
