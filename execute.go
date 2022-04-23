@@ -1,37 +1,49 @@
 package golyb
 
+import (
+	"fmt"
+	"io"
+	"unicode"
+)
+
 type Tape interface {
-	Add(arg int, off int)
 	Move(off int)
-	Print(off int)
-	Scan(off int)
-	IsZero() bool
-	Clear(off int)
-	Mult(arg int, off int, dst int)
-	Search(off int)
+	Read(off int) int
+	Write(off, v int)
 }
 
-func (p Program) Execute(t Tape) {
+func (p Program) Execute(w io.Writer, r io.Reader, t Tape) {
 	for i := range p {
 		switch p[i].Op {
 		case Add:
-			t.Add(p[i].Arg, p[i].Off)
+			x := t.Read(p[i].Off) + p[i].Arg
+			t.Write(p[i].Off, x)
 		case Move:
 			t.Move(p[i].Off)
 		case Print:
-			t.Print(p[i].Off)
+			if x := t.Read(p[i].Off); x > unicode.MaxASCII {
+				fmt.Fprintf(w, "%d", x)
+			} else {
+				fmt.Fprintf(w, "%c", x)
+			}
 		case Scan:
-			t.Scan(p[i].Off)
+			var x int
+			fmt.Fscanf(r, "%c", &x)
+			t.Write(p[i].Off, x)
 		case Loop:
-			for !t.IsZero() {
-				p[i].Branch.Execute(t)
+			for t.Read(0) != 0 {
+				p[i].Branch.Execute(w, r, t)
 			}
 		case Clear:
-			t.Clear(p[i].Off)
+			t.Write(p[i].Off, 0)
 		case Mult:
-			t.Mult(p[i].Arg, p[i].Off, p[i].Dst)
+			x := t.Read(p[i].Off) * p[i].Arg
+			x += t.Read(p[i].Off + p[i].Dst)
+			t.Write(p[i].Off+p[i].Dst, x)
 		case Search:
-			t.Search(p[i].Off)
+			for t.Read(0) != 0 {
+				t.Move(p[i].Off)
+			}
 		default:
 			panic("unknown opcode")
 		}

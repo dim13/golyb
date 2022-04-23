@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"io"
 
 	"github.com/dim13/golyb"
 	"github.com/dim13/golyb/dynamic"
@@ -26,14 +25,14 @@ func (t *Tape) Set(v string) error {
 	return nil
 }
 
-func (t Tape) New(r io.Reader, w io.Writer) golyb.Tape {
+func (t Tape) New() golyb.Tape {
 	switch t {
 	case "static":
-		return static.New(r, w)
+		return static.New()
 	case "dynamic":
-		return dynamic.New(r, w)
+		return dynamic.New()
 	case "sparse":
-		return sparse.New(r, w)
+		return sparse.New()
 	}
 	return nil
 }

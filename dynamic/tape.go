@@ -1,33 +1,16 @@
 package dynamic
 
-import (
-	"fmt"
-	"io"
-	"os"
-	"unicode"
-)
-
 type Tape struct {
 	cell []int
 	pos  int
-	r    io.Reader
-	w    io.Writer
 }
 
 const chunkSize = 1024
 
-func New(r io.Reader, w io.Writer) *Tape {
-	if r == nil {
-		r = os.Stdin
-	}
-	if w == nil {
-		w = os.Stdout
-	}
+func New() *Tape {
 	return &Tape{
 		cell: make([]int, chunkSize),
 		pos:  0,
-		r:    r,
-		w:    w,
 	}
 }
 
@@ -46,53 +29,14 @@ func (t *Tape) Move(off int) {
 	t.grow(t.pos)
 }
 
-func (t *Tape) Add(arg, off int) {
+func (t *Tape) Read(off int) int {
 	x := t.pos + off
 	t.grow(x)
-	t.cell[x] += arg
+	return t.cell[x]
 }
 
-func (t *Tape) Print(off int) {
+func (t *Tape) Write(off, v int) {
 	x := t.pos + off
 	t.grow(x)
-	if c := t.cell[x]; c > unicode.MaxASCII {
-		fmt.Fprintf(t.w, "%d", c)
-	} else {
-		fmt.Fprintf(t.w, "%c", c)
-	}
-}
-
-func (t *Tape) Scan(off int) {
-	x := t.pos + off
-	t.grow(x)
-	fmt.Fscanf(t.r, "%c", &t.cell[x])
-}
-
-func (t *Tape) IsZero() bool {
-	return t.cell[t.pos] == 0
-}
-
-func (t *Tape) Clear(off int) {
-	x := t.pos + off
-	t.grow(x)
-	t.cell[x] = 0
-}
-
-func (t *Tape) Mult(arg, off, dst int) {
-	x := t.pos + off
-	t.grow(x)
-	v := t.cell[x]
-	t.Move(dst)
-	t.Add(int(v)*arg, off)
-	t.Move(-dst)
-}
-
-func (t *Tape) Search(off int) {
-	for !t.IsZero() {
-		t.Move(off)
-	}
-}
-
-func (t *Tape) String() string {
-	return fmt.Sprint(t.cell)
+	t.cell[x] = v
 }

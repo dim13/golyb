@@ -58,6 +58,9 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+	if r == nil {
+		r = os.Stdin
+	}
 
 	var w io.Writer
 	if *out != "" && *out != "-" {
@@ -66,10 +69,13 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+	if w == nil {
+		w = os.Stdout
+	}
 
-	mem := tape.New(r, w)
+	mem := tape.New()
 	defer stacktrace()
-	program.Execute(mem)
+	program.Execute(w, r, mem)
 
 	if *show {
 		fmt.Println(mem)
