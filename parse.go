@@ -12,14 +12,14 @@ import (
 type Opcode int
 
 const (
-	Add Opcode = iota
-	Move
-	Print
-	Scan
-	Loop
-	Clear
-	Mult
-	Search
+	Add    Opcode = iota // Offset, Argument
+	Move                 // Offset
+	Print                // Offset
+	Scan                 // Offset
+	Loop                 // []Command
+	Clear                // Offset
+	Mult                 // Offset, Argument, Destination
+	Search               // Offset
 )
 
 type Command struct {
