@@ -2,7 +2,7 @@ package optimize
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"testing"
 
 	"github.com/dim13/golyb"
@@ -43,7 +43,7 @@ func bench(b *testing.B, fname string, optimize bool) {
 		p = All(p)
 	}
 	for i := 0; i < b.N; i++ {
-		p.Execute(static.New(nil, ioutil.Discard))
+		p.Execute(static.New(nil, io.Discard))
 	}
 }
 
