@@ -1,5 +1,5 @@
-[![GoDoc](https://godoc.org/github.com/dim13/golyb?status.svg)](https://godoc.org/github.com/dim13/golyb)
-[![Build](https://github.com/dim13/golyb/workflows/build/badge.svg)](https://github.com/dim13/golyb/actions)
+[![Go Reference](https://pkg.go.dev/badge/github.com/dim13/golyb.svg)](https://pkg.go.dev/github.com/dim13/golyb)
+[![Build](https://github.com/dim13/golyb/actions/workflows/go.yml/badge.svg)](https://github.com/dim13/golyb/actions/workflows/go.yml)
 
 # Go love your brain
 Yet another optimizing BrainF\*ck interpreter in Go
